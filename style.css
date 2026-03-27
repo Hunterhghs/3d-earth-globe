@@ -15,6 +15,7 @@
   --text-dim: #94a3b8;
   --positive: #34d399;
   --negative: #f87171;
+  --yellow: #fbbf24;
   --font-body: 'Inter', -apple-system, sans-serif;
   --font-display: 'Space Grotesk', 'Inter', sans-serif;
 }
@@ -49,7 +50,7 @@ html, body {
   pointer-events: none;
   display: grid;
   grid-template-rows: 56px 1fr 48px;
-  grid-template-columns: 280px 1fr 300px;
+  grid-template-columns: 260px 1fr 320px;
   grid-template-areas:
     "top    top    top"
     "left   center right"
@@ -59,13 +60,6 @@ html, body {
 
 #ui-overlay > * {
   pointer-events: auto;
-}
-
-/* Let mouse events pass through the center to the globe */
-#ui-overlay::after {
-  content: '';
-  grid-area: center;
-  pointer-events: none;
 }
 
 /* === Top Bar === */
@@ -102,17 +96,18 @@ html, body {
 
 .top-nav {
   display: flex;
-  gap: 8px;
+  gap: 4px;
 }
 
 .nav-link {
   text-decoration: none;
   color: var(--text-dim);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
-  padding: 6px 14px;
+  padding: 6px 12px;
   border-radius: 6px;
   transition: all 0.2s;
+  cursor: pointer;
 }
 
 .nav-link:hover {
@@ -163,8 +158,8 @@ html, body {
 #left-panel, #right-panel {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 16px;
+  gap: 10px;
+  padding: 12px;
   overflow-y: auto;
   scrollbar-width: none;
 }
@@ -176,13 +171,13 @@ html, body {
 
 #left-panel {
   grid-area: left;
-  background: linear-gradient(90deg, rgba(10,14,23,0.9) 0%, rgba(10,14,23,0.3) 100%);
+  background: linear-gradient(90deg, rgba(10,14,23,0.92) 0%, rgba(10,14,23,0.3) 100%);
   border-right: 1px solid var(--surface-border);
 }
 
 #right-panel {
   grid-area: right;
-  background: linear-gradient(270deg, rgba(10,14,23,0.9) 0%, rgba(10,14,23,0.3) 100%);
+  background: linear-gradient(270deg, rgba(10,14,23,0.92) 0%, rgba(10,14,23,0.3) 100%);
   border-left: 1px solid var(--surface-border);
 }
 
@@ -191,7 +186,7 @@ html, body {
   background: var(--surface);
   border: 1px solid var(--surface-border);
   border-radius: 12px;
-  padding: 16px;
+  padding: 14px;
   backdrop-filter: blur(8px);
 }
 
@@ -206,7 +201,7 @@ html, body {
 
 .panel-value {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 700;
   color: var(--text);
   line-height: 1.1;
@@ -229,8 +224,8 @@ html, body {
 
 /* Mini Charts */
 .mini-chart {
-  margin-top: 12px;
-  height: 40px;
+  margin-top: 10px;
+  height: 36px;
   position: relative;
 }
 
@@ -239,63 +234,125 @@ html, body {
   height: 100% !important;
 }
 
-/* === Rank List === */
-.rank-list {
+/* === Country Detail Panel === */
+.detail-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 12px;
+}
+
+.detail-row:last-child { border-bottom: none; }
+
+.detail-label {
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.detail-val {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--text);
+}
+
+.hint-text {
+  font-size: 13px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+/* HDI Bar */
+.hdi-bar-wrap {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.hdi-bar-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 6px;
+}
+
+.hdi-bar-track {
+  height: 8px;
+  background: linear-gradient(90deg, #f87171 0%, #fbbf24 35%, #38bdf8 60%, #34d399 100%);
+  border-radius: 4px;
+  position: relative;
+  overflow: visible;
+}
+
+.hdi-bar-fill {
+  position: absolute;
+  top: -3px;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  transform: translateX(-50%);
+  transition: left 0.5s ease;
+  box-shadow: 0 0 8px rgba(56,189,248,0.5);
+}
+
+.hdi-bar-scale {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-top: 4px;
+}
+
+/* === Legend === */
+.legend-list {
   display: flex;
   flex-direction: column;
   gap: 6px;
 }
 
-.rank-item {
+.legend-item {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 7px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.04);
-  font-size: 13px;
-}
-
-.rank-item:last-child { border-bottom: none; }
-
-.rank-num {
-  font-family: var(--font-display);
-  font-weight: 600;
-  color: var(--accent);
+  gap: 8px;
   font-size: 12px;
-  min-width: 22px;
-}
-
-.rank-name {
-  flex: 1;
-  color: var(--text);
-  font-weight: 500;
-}
-
-.rank-val {
-  font-family: var(--font-display);
-  font-weight: 600;
   color: var(--text-dim);
-  font-size: 12px;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 /* === Bar Chart === */
 .bar-chart {
-  margin-top: 12px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .bar-row {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .bar-label {
   font-size: 11px;
   color: var(--text-dim);
-  min-width: 75px;
+  min-width: 85px;
   font-weight: 500;
 }
 
@@ -309,9 +366,22 @@ html, body {
 
 .bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--accent), #818cf8);
   border-radius: 3px;
   transition: width 1.5s ease;
+  background: linear-gradient(90deg, var(--accent), #818cf8);
+}
+
+.bar-fill.green { background: linear-gradient(90deg, #34d399, #38bdf8); }
+.bar-fill.yellow { background: linear-gradient(90deg, #fbbf24, #fb923c); }
+.bar-fill.red { background: linear-gradient(90deg, #f87171, #ef4444); }
+
+.bar-pct {
+  font-size: 11px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--text-dim);
+  min-width: 30px;
+  text-align: right;
 }
 
 /* === Bottom Ticker === */
@@ -329,7 +399,7 @@ html, body {
   display: flex;
   gap: 32px;
   padding: 0 24px;
-  animation: ticker-scroll 30s linear infinite;
+  animation: ticker-scroll 40s linear infinite;
   white-space: nowrap;
 }
 
@@ -380,16 +450,37 @@ html, body {
   backdrop-filter: blur(8px);
   z-index: 100;
   transition: opacity 0.2s;
+  max-width: 280px;
+  line-height: 1.4;
 }
 
 .globe-label.hidden {
   opacity: 0;
 }
 
+/* === Country label sprites (CSS2D) === */
+.country-label {
+  font-family: var(--font-display);
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.7);
+  text-shadow: 0 0 4px rgba(0,0,0,0.8), 0 0 8px rgba(0,0,0,0.5);
+  pointer-events: none;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  user-select: none;
+  transform: translate(-50%, -50%);
+}
+
+.country-label.major {
+  font-size: 12px;
+  color: rgba(255,255,255,0.85);
+}
+
 /* === Responsive === */
 @media (max-width: 1024px) {
   #ui-overlay {
-    grid-template-columns: 220px 1fr 240px;
+    grid-template-columns: 220px 1fr 260px;
   }
   .panel-value { font-size: 22px; }
 }
@@ -415,9 +506,6 @@ html, body {
     border-top: 1px solid var(--surface-border);
     padding: 12px;
   }
-
-  #left-panel { border-right: none; }
-  #right-panel { border-left: none; }
 
   .panel-card {
     min-width: 200px;

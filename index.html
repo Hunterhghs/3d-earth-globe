@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Economy — Global Dashboard</title>
+  <title>Global Development Dashboard</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,13 +16,14 @@
     <header id="top-bar">
       <div class="logo">
         <span class="logo-icon">&#9672;</span>
-        <span class="logo-text">DIGITAL ECONOMY</span>
+        <span class="logo-text">GLOBAL DEVELOPMENT</span>
       </div>
       <nav class="top-nav">
-        <a href="#" class="nav-link active">Dashboard</a>
-        <a href="#" class="nav-link">Markets</a>
-        <a href="#" class="nav-link">Analytics</a>
-        <a href="#" class="nav-link">Network</a>
+        <a href="#" class="nav-link active" data-metric="hdi">HDI</a>
+        <a href="#" class="nav-link" data-metric="gdppc">GDP/Capita</a>
+        <a href="#" class="nav-link" data-metric="lifeExp">Life Expect.</a>
+        <a href="#" class="nav-link" data-metric="literacy">Literacy</a>
+        <a href="#" class="nav-link" data-metric="internet">Internet</a>
       </nav>
       <div class="top-right">
         <span class="live-dot"></span>
@@ -34,55 +35,122 @@
     <!-- Left Panel -->
     <aside id="left-panel">
       <div class="panel-card">
+        <h3 class="panel-title">World Population</h3>
+        <div class="panel-value">8.1B</div>
+        <div class="panel-change positive">+0.9% YoY</div>
+        <div class="mini-chart" id="chart-pop"></div>
+      </div>
+      <div class="panel-card">
         <h3 class="panel-title">Global GDP</h3>
-        <div class="panel-value" id="gdp-value">$105.4T</div>
+        <div class="panel-value">$105.4T</div>
         <div class="panel-change positive">+3.2% YoY</div>
         <div class="mini-chart" id="chart-gdp"></div>
       </div>
       <div class="panel-card">
-        <h3 class="panel-title">Digital Trade Volume</h3>
-        <div class="panel-value" id="trade-value">$8.7T</div>
-        <div class="panel-change positive">+12.8% YoY</div>
-        <div class="mini-chart" id="chart-trade"></div>
+        <h3 class="panel-title">Avg. Life Expectancy</h3>
+        <div class="panel-value">73.4 yrs</div>
+        <div class="panel-change positive">+0.3 yrs</div>
+        <div class="mini-chart" id="chart-life"></div>
       </div>
       <div class="panel-card">
-        <h3 class="panel-title">Internet Users</h3>
-        <div class="panel-value">5.6B</div>
-        <div class="panel-change positive">+4.1%</div>
-        <div class="mini-chart" id="chart-users"></div>
+        <h3 class="panel-title">Extreme Poverty Rate</h3>
+        <div class="panel-value">8.5%</div>
+        <div class="panel-change positive">-0.7%</div>
+        <div class="mini-chart" id="chart-poverty"></div>
       </div>
       <div class="panel-card">
-        <h3 class="panel-title">Crypto Market Cap</h3>
-        <div class="panel-value">$3.8T</div>
-        <div class="panel-change positive">+18.5%</div>
-        <div class="mini-chart" id="chart-crypto"></div>
+        <h3 class="panel-title">Internet Penetration</h3>
+        <div class="panel-value">67.4%</div>
+        <div class="panel-change positive">+3.2%</div>
+        <div class="mini-chart" id="chart-internet"></div>
+      </div>
+      <div class="panel-card">
+        <h3 class="panel-title">Global Literacy</h3>
+        <div class="panel-value">87.1%</div>
+        <div class="panel-change positive">+0.4%</div>
+        <div class="mini-chart" id="chart-literacy"></div>
       </div>
     </aside>
 
     <!-- Right Panel -->
     <aside id="right-panel">
+      <div class="panel-card" id="country-detail" style="display:none;">
+        <h3 class="panel-title" id="detail-country-name">—</h3>
+        <div class="detail-grid">
+          <div class="detail-row">
+            <span class="detail-label">Region</span>
+            <span class="detail-val" id="detail-region">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Population</span>
+            <span class="detail-val" id="detail-pop">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">GDP (nominal)</span>
+            <span class="detail-val" id="detail-gdp">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">GDP per capita</span>
+            <span class="detail-val" id="detail-gdppc">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">HDI</span>
+            <span class="detail-val" id="detail-hdi">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Life Expectancy</span>
+            <span class="detail-val" id="detail-life">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Literacy Rate</span>
+            <span class="detail-val" id="detail-literacy">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Internet Users</span>
+            <span class="detail-val" id="detail-internet">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">CO₂/capita</span>
+            <span class="detail-val" id="detail-co2">—</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">Gini Index</span>
+            <span class="detail-val" id="detail-gini">—</span>
+          </div>
+        </div>
+        <div class="hdi-bar-wrap">
+          <div class="hdi-bar-label">HDI Score</div>
+          <div class="hdi-bar-track">
+            <div class="hdi-bar-fill" id="detail-hdi-bar"></div>
+          </div>
+          <div class="hdi-bar-scale">
+            <span>0</span><span>Low</span><span>Medium</span><span>High</span><span>V.High</span><span>1</span>
+          </div>
+        </div>
+      </div>
+      <div class="panel-card" id="no-selection-hint">
+        <h3 class="panel-title">Country Detail</h3>
+        <p class="hint-text">Hover over a country marker on the globe to view its development data.</p>
+      </div>
       <div class="panel-card">
-        <h3 class="panel-title">Top Economies</h3>
-        <div class="rank-list">
-          <div class="rank-item"><span class="rank-num">01</span><span class="rank-name">United States</span><span class="rank-val">$28.8T</span></div>
-          <div class="rank-item"><span class="rank-num">02</span><span class="rank-name">China</span><span class="rank-val">$18.5T</span></div>
-          <div class="rank-item"><span class="rank-num">03</span><span class="rank-name">Germany</span><span class="rank-val">$4.6T</span></div>
-          <div class="rank-item"><span class="rank-num">04</span><span class="rank-name">Japan</span><span class="rank-val">$4.2T</span></div>
-          <div class="rank-item"><span class="rank-num">05</span><span class="rank-name">India</span><span class="rank-val">$3.9T</span></div>
-          <div class="rank-item"><span class="rank-num">06</span><span class="rank-name">United Kingdom</span><span class="rank-val">$3.5T</span></div>
-          <div class="rank-item"><span class="rank-num">07</span><span class="rank-name">France</span><span class="rank-val">$3.1T</span></div>
+        <h3 class="panel-title">Development Tiers</h3>
+        <div class="legend-list">
+          <div class="legend-item"><span class="legend-dot" style="background:#34d399"></span>Very High HDI (≥0.800)</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#38bdf8"></span>High HDI (0.700–0.799)</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#fbbf24"></span>Medium HDI (0.550–0.699)</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#f87171"></span>Low HDI (&lt;0.550)</div>
         </div>
       </div>
       <div class="panel-card">
-        <h3 class="panel-title">Active Transactions</h3>
-        <div class="panel-value" id="tx-value">2,847,391</div>
-        <div class="panel-sub">per second globally</div>
+        <h3 class="panel-title">SDG Progress</h3>
         <div class="bar-chart">
-          <div class="bar-row"><span class="bar-label">Americas</span><div class="bar-track"><div class="bar-fill" style="width:78%"></div></div></div>
-          <div class="bar-row"><span class="bar-label">Europe</span><div class="bar-track"><div class="bar-fill" style="width:62%"></div></div></div>
-          <div class="bar-row"><span class="bar-label">Asia-Pacific</span><div class="bar-track"><div class="bar-fill" style="width:91%"></div></div></div>
-          <div class="bar-row"><span class="bar-label">Africa</span><div class="bar-track"><div class="bar-fill" style="width:34%"></div></div></div>
-          <div class="bar-row"><span class="bar-label">Middle East</span><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div></div>
+          <div class="bar-row"><span class="bar-label">No Poverty</span><div class="bar-track"><div class="bar-fill green" style="width:64%"></div></div><span class="bar-pct">64%</span></div>
+          <div class="bar-row"><span class="bar-label">Zero Hunger</span><div class="bar-track"><div class="bar-fill yellow" style="width:48%"></div></div><span class="bar-pct">48%</span></div>
+          <div class="bar-row"><span class="bar-label">Good Health</span><div class="bar-track"><div class="bar-fill green" style="width:71%"></div></div><span class="bar-pct">71%</span></div>
+          <div class="bar-row"><span class="bar-label">Education</span><div class="bar-track"><div class="bar-fill green" style="width:68%"></div></div><span class="bar-pct">68%</span></div>
+          <div class="bar-row"><span class="bar-label">Clean Water</span><div class="bar-track"><div class="bar-fill yellow" style="width:55%"></div></div><span class="bar-pct">55%</span></div>
+          <div class="bar-row"><span class="bar-label">Clean Energy</span><div class="bar-track"><div class="bar-fill yellow" style="width:42%"></div></div><span class="bar-pct">42%</span></div>
+          <div class="bar-row"><span class="bar-label">Climate Action</span><div class="bar-track"><div class="bar-fill red" style="width:28%"></div></div><span class="bar-pct">28%</span></div>
         </div>
       </div>
     </aside>
@@ -90,18 +158,20 @@
     <!-- Bottom Panel -->
     <footer id="bottom-panel">
       <div class="ticker-strip">
-        <div class="ticker-item"><span class="ticker-label">BTC</span><span class="ticker-val">$87,241</span><span class="ticker-change positive">+2.4%</span></div>
-        <div class="ticker-item"><span class="ticker-label">ETH</span><span class="ticker-val">$4,128</span><span class="ticker-change positive">+1.8%</span></div>
-        <div class="ticker-item"><span class="ticker-label">S&P 500</span><span class="ticker-val">5,842</span><span class="ticker-change negative">-0.3%</span></div>
-        <div class="ticker-item"><span class="ticker-label">NASDAQ</span><span class="ticker-val">18,392</span><span class="ticker-change positive">+0.7%</span></div>
-        <div class="ticker-item"><span class="ticker-label">FTSE 100</span><span class="ticker-val">8,124</span><span class="ticker-change positive">+0.4%</span></div>
-        <div class="ticker-item"><span class="ticker-label">Nikkei 225</span><span class="ticker-val">39,847</span><span class="ticker-change negative">-0.2%</span></div>
-        <div class="ticker-item"><span class="ticker-label">Gold</span><span class="ticker-val">$2,684</span><span class="ticker-change positive">+0.9%</span></div>
-        <div class="ticker-item"><span class="ticker-label">Oil (WTI)</span><span class="ticker-val">$78.42</span><span class="ticker-change negative">-1.1%</span></div>
+        <div class="ticker-item"><span class="ticker-label">World GDP Growth</span><span class="ticker-val">+3.2%</span></div>
+        <div class="ticker-item"><span class="ticker-label">Global Trade</span><span class="ticker-val">$32.1T</span><span class="ticker-change positive">+4.7%</span></div>
+        <div class="ticker-item"><span class="ticker-label">FDI Flows</span><span class="ticker-val">$1.37T</span><span class="ticker-change positive">+3.1%</span></div>
+        <div class="ticker-item"><span class="ticker-label">ODA (Aid)</span><span class="ticker-val">$211B</span><span class="ticker-change positive">+1.8%</span></div>
+        <div class="ticker-item"><span class="ticker-label">Renewables</span><span class="ticker-val">30.2%</span><span class="ticker-change positive">+2.4%</span></div>
+        <div class="ticker-item"><span class="ticker-label">Urban Pop.</span><span class="ticker-val">57.1%</span><span class="ticker-change positive">+0.5%</span></div>
+        <div class="ticker-item"><span class="ticker-label">Mobile Subs</span><span class="ticker-val">8.6B</span><span class="ticker-change positive">+1.9%</span></div>
+        <div class="ticker-item"><span class="ticker-label">CO₂ Emissions</span><span class="ticker-val">37.4 Gt</span><span class="ticker-change negative">+0.8%</span></div>
+        <div class="ticker-item"><span class="ticker-label">Refugees</span><span class="ticker-val">110M</span><span class="ticker-change negative">+8.2%</span></div>
+        <div class="ticker-item"><span class="ticker-label">Undernourished</span><span class="ticker-val">735M</span><span class="ticker-change negative">+1.1%</span></div>
       </div>
     </footer>
 
-    <!-- Globe info tooltip -->
+    <!-- Globe hover tooltip -->
     <div id="globe-label" class="globe-label hidden"></div>
 
   </div>
