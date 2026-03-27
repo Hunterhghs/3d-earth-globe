@@ -35,18 +35,22 @@ controls.autoRotate = true;
 controls.autoRotateSpeed = 0.4;
 
 // ============================================
-// Lighting
+// Lighting — even illumination, no dark side
 // ============================================
-const ambientLight = new THREE.AmbientLight(0x334466, 1.5);
+const ambientLight = new THREE.AmbientLight(0xffffff, 3.0);
 scene.add(ambientLight);
 
-const sunLight = new THREE.DirectionalLight(0xffffff, 2.5);
+const sunLight = new THREE.DirectionalLight(0xffffff, 1.0);
 sunLight.position.set(5, 3, 5);
 scene.add(sunLight);
 
-const backLight = new THREE.DirectionalLight(0x38bdf8, 0.4);
-backLight.position.set(-5, -2, -5);
-scene.add(backLight);
+const fillLight = new THREE.DirectionalLight(0xffffff, 0.8);
+fillLight.position.set(-5, -2, -5);
+scene.add(fillLight);
+
+const topLight = new THREE.DirectionalLight(0xffffff, 0.5);
+topLight.position.set(0, 5, 0);
+scene.add(topLight);
 
 // ============================================
 // Earth Globe
@@ -66,8 +70,8 @@ const earthMaterial = new THREE.MeshStandardMaterial({
   map: earthDayMap,
   bumpMap: earthTopology,
   bumpScale: 0.03,
-  roughness: 0.7,
-  metalness: 0.1,
+  roughness: 1.0,
+  metalness: 0.0,
 });
 
 const earth = new THREE.Mesh(earthGeometry, earthMaterial);
@@ -166,9 +170,9 @@ function latLonToVec3(lat, lon, radius) {
   );
 }
 
-// Create point markers
+// Create point markers — child of earth so they rotate together
 const pointsGroup = new THREE.Group();
-scene.add(pointsGroup);
+earth.add(pointsGroup);
 
 const markerGeometry = new THREE.SphereGeometry(0.012, 16, 16);
 const markerMaterial = new THREE.MeshBasicMaterial({ color: 0x38bdf8 });
@@ -250,11 +254,14 @@ function createArc(startPos, endPos) {
   return new THREE.Line(geometry, material);
 }
 
+const arcsGroup = new THREE.Group();
+earth.add(arcsGroup);
+
 arcRoutes.forEach(([i, j]) => {
   const startPos = latLonToVec3(cities[i].lat, cities[i].lon, 1.01);
   const endPos = latLonToVec3(cities[j].lat, cities[j].lon, 1.01);
   const arc = createArc(startPos, endPos);
-  scene.add(arc);
+  arcsGroup.add(arc);
 });
 
 // ============================================
@@ -267,6 +274,9 @@ const packetMaterial = new THREE.MeshBasicMaterial({
   transparent: true,
   opacity: 0.9,
 });
+
+const packetsGroup = new THREE.Group();
+earth.add(packetsGroup);
 
 arcRoutes.forEach(([i, j]) => {
   const startPos = latLonToVec3(cities[i].lat, cities[i].lon, 1.01);
@@ -281,7 +291,7 @@ arcRoutes.forEach(([i, j]) => {
   packet.userData.curve = curve;
   packet.userData.t = Math.random();
   packet.userData.speed = 0.002 + Math.random() * 0.003;
-  scene.add(packet);
+  packetsGroup.add(packet);
   packets.push(packet);
 });
 
@@ -324,7 +334,7 @@ canvas.addEventListener('mousemove', (event) => {
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
-  const intersects = raycaster.intersectObjects(cityMeshes);
+  const intersects = raycaster.intersectObjects(cityMeshes, true);
 
   if (intersects.length > 0) {
     const city = intersects[0].object.userData;
@@ -447,9 +457,6 @@ const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
   const elapsed = clock.getElapsedTime();
-
-  // Slow earth rotation
-  earth.rotation.y += 0.0003;
 
   // Pulse rings
   pointsGroup.children.forEach((child) => {
