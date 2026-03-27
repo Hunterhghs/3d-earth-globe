@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Economy — Global Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Dashboard UI Overlay -->
+  <div id="ui-overlay">
+
+    <!-- Top Bar -->
+    <header id="top-bar">
+      <div class="logo">
+        <span class="logo-icon">&#9672;</span>
+        <span class="logo-text">DIGITAL ECONOMY</span>
+      </div>
+      <nav class="top-nav">
+        <a href="#" class="nav-link active">Dashboard</a>
+        <a href="#" class="nav-link">Markets</a>
+        <a href="#" class="nav-link">Analytics</a>
+        <a href="#" class="nav-link">Network</a>
+      </nav>
+      <div class="top-right">
+        <span class="live-dot"></span>
+        <span class="live-text">LIVE</span>
+        <span id="clock"></span>
+      </div>
+    </header>
+
+    <!-- Left Panel -->
+    <aside id="left-panel">
+      <div class="panel-card">
+        <h3 class="panel-title">Global GDP</h3>
+        <div class="panel-value" id="gdp-value">$105.4T</div>
+        <div class="panel-change positive">+3.2% YoY</div>
+        <div class="mini-chart" id="chart-gdp"></div>
+      </div>
+      <div class="panel-card">
+        <h3 class="panel-title">Digital Trade Volume</h3>
+        <div class="panel-value" id="trade-value">$8.7T</div>
+        <div class="panel-change positive">+12.8% YoY</div>
+        <div class="mini-chart" id="chart-trade"></div>
+      </div>
+      <div class="panel-card">
+        <h3 class="panel-title">Internet Users</h3>
+        <div class="panel-value">5.6B</div>
+        <div class="panel-change positive">+4.1%</div>
+        <div class="mini-chart" id="chart-users"></div>
+      </div>
+      <div class="panel-card">
+        <h3 class="panel-title">Crypto Market Cap</h3>
+        <div class="panel-value">$3.8T</div>
+        <div class="panel-change positive">+18.5%</div>
+        <div class="mini-chart" id="chart-crypto"></div>
+      </div>
+    </aside>
+
+    <!-- Right Panel -->
+    <aside id="right-panel">
+      <div class="panel-card">
+        <h3 class="panel-title">Top Economies</h3>
+        <div class="rank-list">
+          <div class="rank-item"><span class="rank-num">01</span><span class="rank-name">United States</span><span class="rank-val">$28.8T</span></div>
+          <div class="rank-item"><span class="rank-num">02</span><span class="rank-name">China</span><span class="rank-val">$18.5T</span></div>
+          <div class="rank-item"><span class="rank-num">03</span><span class="rank-name">Germany</span><span class="rank-val">$4.6T</span></div>
+          <div class="rank-item"><span class="rank-num">04</span><span class="rank-name">Japan</span><span class="rank-val">$4.2T</span></div>
+          <div class="rank-item"><span class="rank-num">05</span><span class="rank-name">India</span><span class="rank-val">$3.9T</span></div>
+          <div class="rank-item"><span class="rank-num">06</span><span class="rank-name">United Kingdom</span><span class="rank-val">$3.5T</span></div>
+          <div class="rank-item"><span class="rank-num">07</span><span class="rank-name">France</span><span class="rank-val">$3.1T</span></div>
+        </div>
+      </div>
+      <div class="panel-card">
+        <h3 class="panel-title">Active Transactions</h3>
+        <div class="panel-value" id="tx-value">2,847,391</div>
+        <div class="panel-sub">per second globally</div>
+        <div class="bar-chart">
+          <div class="bar-row"><span class="bar-label">Americas</span><div class="bar-track"><div class="bar-fill" style="width:78%"></div></div></div>
+          <div class="bar-row"><span class="bar-label">Europe</span><div class="bar-track"><div class="bar-fill" style="width:62%"></div></div></div>
+          <div class="bar-row"><span class="bar-label">Asia-Pacific</span><div class="bar-track"><div class="bar-fill" style="width:91%"></div></div></div>
+          <div class="bar-row"><span class="bar-label">Africa</span><div class="bar-track"><div class="bar-fill" style="width:34%"></div></div></div>
+          <div class="bar-row"><span class="bar-label">Middle East</span><div class="bar-track"><div class="bar-fill" style="width:28%"></div></div></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Bottom Panel -->
+    <footer id="bottom-panel">
+      <div class="ticker-strip">
+        <div class="ticker-item"><span class="ticker-label">BTC</span><span class="ticker-val">$87,241</span><span class="ticker-change positive">+2.4%</span></div>
+        <div class="ticker-item"><span class="ticker-label">ETH</span><span class="ticker-val">$4,128</span><span class="ticker-change positive">+1.8%</span></div>
+        <div class="ticker-item"><span class="ticker-label">S&P 500</span><span class="ticker-val">5,842</span><span class="ticker-change negative">-0.3%</span></div>
+        <div class="ticker-item"><span class="ticker-label">NASDAQ</span><span class="ticker-val">18,392</span><span class="ticker-change positive">+0.7%</span></div>
+        <div class="ticker-item"><span class="ticker-label">FTSE 100</span><span class="ticker-val">8,124</span><span class="ticker-change positive">+0.4%</span></div>
+        <div class="ticker-item"><span class="ticker-label">Nikkei 225</span><span class="ticker-val">39,847</span><span class="ticker-change negative">-0.2%</span></div>
+        <div class="ticker-item"><span class="ticker-label">Gold</span><span class="ticker-val">$2,684</span><span class="ticker-change positive">+0.9%</span></div>
+        <div class="ticker-item"><span class="ticker-label">Oil (WTI)</span><span class="ticker-val">$78.42</span><span class="ticker-change negative">-1.1%</span></div>
+      </div>
+    </footer>
+
+    <!-- Globe info tooltip -->
+    <div id="globe-label" class="globe-label hidden"></div>
+
+  </div>
+
+  <!-- Three.js Canvas -->
+  <canvas id="globe-canvas"></canvas>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
