@@ -556,7 +556,7 @@ starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
 scene.add(new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.15, transparent: true, opacity: 0.6, sizeAttenuation: true })));
 
 // ============================================
-// Raycaster — hover for country detail
+// Raycaster — hover/click for country detail
 // ============================================
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
@@ -564,15 +564,34 @@ const globeLabel = document.getElementById('globe-label');
 const detailPanel = document.getElementById('country-detail');
 const noSelectionHint = document.getElementById('no-selection-hint');
 
+// Filter raycast hits to only include front-facing countries
+// (prevents clicking through the globe to countries on the back side)
+function getFrontFacingHit(intersects) {
+  const cameraDir = camera.position.clone().normalize();
+  for (const hit of intersects) {
+    // Get the world position of the hit point and check if it faces the camera
+    const hitPos = hit.point.clone();
+    // Transform from earth's local space to world space
+    earth.localToWorld(hitPos);
+    const hitDir = hitPos.clone().normalize();
+    // If the dot product is positive, the point faces the camera (front side)
+    if (hitDir.dot(cameraDir) > 0.05) {
+      return hit;
+    }
+  }
+  return null;
+}
+
 canvas.addEventListener('mousemove', (event) => {
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
 
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects(countryMeshes, true);
+  const hit = getFrontFacingHit(intersects);
 
-  if (intersects.length > 0) {
-    const c = intersects[0].object.userData;
+  if (hit) {
+    const c = hit.object.userData;
     globeLabel.innerHTML = `<strong>${c.name}</strong> &middot; HDI ${c.hdi} &middot; GDP/cap ${c.gdppc}`;
     globeLabel.classList.remove('hidden');
     globeLabel.style.left = event.clientX + 16 + 'px';
@@ -600,9 +619,10 @@ canvas.addEventListener('click', (event) => {
 
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects(countryMeshes, true);
+  const hit = getFrontFacingHit(intersects);
 
-  if (intersects.length > 0) {
-    const c = intersects[0].object.userData;
+  if (hit) {
+    const c = hit.object.userData;
     updateDetailPanel(c);
     highlightCountry(c.code);
     controls.autoRotate = false;
@@ -777,19 +797,22 @@ canvas.addEventListener('touchend', (event) => {
 
   raycaster.setFromCamera(mouse, camera);
   const intersects = raycaster.intersectObjects(countryMeshes, true);
+  const hit = getFrontFacingHit(intersects);
 
-  if (intersects.length > 0) {
-    const c = intersects[0].object.userData;
+  if (hit) {
+    const c = hit.object.userData;
     if (isMobile || window.innerWidth <= 600) {
       openMobileDrawer(c);
     } else {
       updateDetailPanel(c);
     }
+    highlightCountry(c.code);
     // Stop auto-rotate briefly
     controls.autoRotate = false;
     setTimeout(() => { controls.autoRotate = true; }, 5000);
   } else {
     closeMobileDrawer();
+    clearHighlight();
   }
 }, { passive: true });
 
