@@ -268,43 +268,21 @@ const countries = [
 ];
 
 // ============================================
-// Country Markers — on globe
+// Country Labels (no dots/markers — borders are clickable)
 // ============================================
 const pointsGroup = new THREE.Group();
 earth.add(pointsGroup);
 
-const countryMeshes = [];
+const countryMeshes = []; // Will hold clickable polygon meshes
 let activeMetric = 'hdi';
 
+// Only add text labels (no dots or rings)
 countries.forEach((c) => {
-  const pos = latLonToVec3(c.lat, c.lon, 1.012);
-  const size = c.major ? 0.014 : 0.009;
-
-  // Marker dot colored by HDI
-  const geo = new THREE.SphereGeometry(size, 16, 16);
-  const mat = new THREE.MeshBasicMaterial({ color: hdiColor(c.hdi) });
-  const marker = new THREE.Mesh(geo, mat);
-  marker.position.copy(pos);
-  marker.userData = c;
-  pointsGroup.add(marker);
-  countryMeshes.push(marker);
-
-  // Pulse ring
-  const ringGeo = new THREE.RingGeometry(size * 1.2, size * 2.0, 32);
-  const ringMat = new THREE.MeshBasicMaterial({ color: hdiColor(c.hdi), transparent: true, opacity: 0.5, side: THREE.DoubleSide });
-  const ring = new THREE.Mesh(ringGeo, ringMat);
-  ring.position.copy(pos);
-  ring.lookAt(pos.clone().multiplyScalar(2));
-  ring.userData.phase = Math.random() * Math.PI * 2;
-  ring.userData.isRing = true;
-  pointsGroup.add(ring);
-
-  // Country label
   const labelDiv = document.createElement('div');
   labelDiv.className = 'country-label' + (c.major ? ' major' : '');
   labelDiv.textContent = c.name;
   const label = new CSS2DObject(labelDiv);
-  const labelPos = latLonToVec3(c.lat, c.lon, 1.06);
+  const labelPos = latLonToVec3(c.lat, c.lon, 1.04);
   label.position.copy(labelPos);
   label.userData.isLabel = true;
   label.userData.countryData = c;
@@ -312,12 +290,42 @@ countries.forEach((c) => {
 });
 
 // ============================================
-// Country Borders from GeoJSON
+// Country Borders + Clickable Polygons from TopoJSON
 // ============================================
 const bordersGroup = new THREE.Group();
 earth.add(bordersGroup);
 
-async function loadBorders() {
+const countryPolygonsGroup = new THREE.Group();
+earth.add(countryPolygonsGroup);
+
+// Highlight mesh for hovered/selected country
+let highlightMeshes = [];
+
+// Map ISO numeric IDs to our country data codes
+const isoNumericToCode = {
+  '840':'US','124':'CA','484':'MX','320':'GT','188':'CR','192':'CU','388':'JM','332':'HT',
+  '076':'BR','032':'AR','170':'CO','152':'CL','604':'PE','862':'VE',
+  '826':'GB','276':'DE','250':'FR','380':'IT','724':'ES','528':'NL','752':'SE','578':'NO',
+  '756':'CH','616':'PL','804':'UA','642':'RO','300':'GR','620':'PT','246':'FI','372':'IE',
+  '643':'RU','398':'KZ','860':'UZ',
+  '792':'TR','682':'SA','784':'AE','376':'IL','364':'IR','368':'IQ','400':'JO','887':'YE',
+  '356':'IN','586':'PK','050':'BD','144':'LK','524':'NP','004':'AF',
+  '156':'CN','392':'JP','410':'KR','496':'MN','158':'TW',
+  '360':'ID','608':'PH','704':'VN','764':'TH','458':'MY','702':'SG','104':'MM','116':'KH',
+  '818':'EG','504':'MA','012':'DZ','788':'TN','434':'LY',
+  '566':'NG','288':'GH','686':'SN','384':'CI',
+  '404':'KE','231':'ET','834':'TZ','800':'UG','646':'RW','450':'MG','706':'SO',
+  '710':'ZA','180':'CD','024':'AO','508':'MZ','716':'ZW','894':'ZM','072':'BW',
+  '036':'AU','554':'NZ','598':'PG'
+};
+
+function getCountryDataById(id) {
+  const code = isoNumericToCode[id];
+  if (!code) return null;
+  return countries.find(c => c.code === code) || null;
+}
+
+async function loadBordersAndPolygons() {
   try {
     const resp = await fetch('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json');
     const topology = await resp.json();
@@ -342,37 +350,97 @@ async function loadBorders() {
       return [...arcs[~idx]].reverse();
     }
 
-    // Draw each country's borders
     const countries110 = topology.objects.countries;
     const geometries = countries110.geometries;
 
+    // Border line material — bright and clearly visible
     const borderMaterial = new THREE.LineBasicMaterial({
-      color: 0x38bdf8,
+      color: 0x7ee8ff,
       transparent: true,
-      opacity: 0.25,
+      opacity: 0.6,
     });
 
     geometries.forEach(geom => {
-      let rings = [];
+      const countryId = geom.id;
+      const countryData = getCountryDataById(String(countryId));
+
+      let polygons = [];
       if (geom.type === 'Polygon') {
-        rings = geom.arcs;
+        polygons = [geom.arcs];
       } else if (geom.type === 'MultiPolygon') {
-        geom.arcs.forEach(poly => { rings.push(...poly); });
+        polygons = geom.arcs;
       }
 
-      rings.forEach(ring => {
-        const coords = [];
-        ring.forEach(idx => {
-          const decoded = decodeArc(idx);
-          decoded.forEach(([lon, lat]) => {
-            coords.push(latLonToVec3(lat, lon, 1.003));
+      polygons.forEach(poly => {
+        poly.forEach((ring, ringIdx) => {
+          const coords = [];
+          const latLons = [];
+          ring.forEach(idx => {
+            const decoded = decodeArc(idx);
+            decoded.forEach(([lon, lat]) => {
+              coords.push(latLonToVec3(lat, lon, 1.003));
+              latLons.push([lat, lon]);
+            });
           });
-        });
 
-        if (coords.length < 2) return;
-        const geometry = new THREE.BufferGeometry().setFromPoints(coords);
-        const line = new THREE.Line(geometry, borderMaterial);
-        bordersGroup.add(line);
+          if (coords.length < 2) return;
+
+          // Draw border line
+          const lineGeo = new THREE.BufferGeometry().setFromPoints(coords);
+          const line = new THREE.Line(lineGeo, borderMaterial);
+          bordersGroup.add(line);
+
+          // Create clickable polygon mesh (only for outer ring of countries we have data for)
+          if (ringIdx === 0 && countryData && coords.length >= 3) {
+            try {
+              const polyCoords = [];
+              ring.forEach(idx => {
+                const decoded = decodeArc(idx);
+                decoded.forEach(([lon, lat]) => {
+                  polyCoords.push(latLonToVec3(lat, lon, 1.005));
+                });
+              });
+
+              // Create a filled mesh using triangulation via ShapeGeometry approach
+              // Use a simple fan triangulation from centroid
+              const centroid = new THREE.Vector3();
+              polyCoords.forEach(p => centroid.add(p));
+              centroid.divideScalar(polyCoords.length);
+              centroid.normalize().multiplyScalar(1.005);
+
+              const positions = [];
+              const step = Math.max(1, Math.floor(polyCoords.length / 200)); // limit vertex count
+              for (let i = 0; i < polyCoords.length - step; i += step) {
+                const j = Math.min(i + step, polyCoords.length - 1);
+                positions.push(centroid.x, centroid.y, centroid.z);
+                positions.push(polyCoords[i].x, polyCoords[i].y, polyCoords[i].z);
+                positions.push(polyCoords[j].x, polyCoords[j].y, polyCoords[j].z);
+              }
+
+              if (positions.length >= 9) {
+                const meshGeo = new THREE.BufferGeometry();
+                meshGeo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+                meshGeo.computeVertexNormals();
+
+                // Invisible but raycastable mesh
+                const meshMat = new THREE.MeshBasicMaterial({
+                  color: hdiColor(countryData.hdi),
+                  transparent: true,
+                  opacity: 0,
+                  side: THREE.DoubleSide,
+                  depthWrite: false,
+                });
+                const mesh = new THREE.Mesh(meshGeo, meshMat);
+                mesh.userData = countryData;
+                mesh.userData.isCountryPoly = true;
+                countryPolygonsGroup.add(mesh);
+                countryMeshes.push(mesh);
+              }
+            } catch (e) {
+              // Skip polygons that fail triangulation
+            }
+          }
+        });
       });
     });
   } catch (e) {
@@ -380,7 +448,31 @@ async function loadBorders() {
   }
 }
 
-loadBorders();
+loadBordersAndPolygons();
+
+// Highlight a country on hover
+let currentHighlight = null;
+function highlightCountry(countryCode) {
+  if (currentHighlight === countryCode) return;
+  clearHighlight();
+  currentHighlight = countryCode;
+
+  countryMeshes.forEach(mesh => {
+    if (mesh.userData.code === countryCode) {
+      mesh.material.opacity = 0.35;
+    }
+  });
+}
+
+function clearHighlight() {
+  if (!currentHighlight) return;
+  countryMeshes.forEach(mesh => {
+    if (mesh.userData.code === currentHighlight) {
+      mesh.material.opacity = 0;
+    }
+  });
+  currentHighlight = null;
+}
 
 // ============================================
 // Connection Arcs — development aid / trade
@@ -488,12 +580,33 @@ canvas.addEventListener('mousemove', (event) => {
     canvas.style.cursor = 'pointer';
     controls.autoRotate = false;
 
+    // Highlight the country
+    highlightCountry(c.code);
+
     // Update detail panel
     updateDetailPanel(c);
   } else {
     globeLabel.classList.add('hidden');
     canvas.style.cursor = 'grab';
     controls.autoRotate = true;
+    clearHighlight();
+  }
+});
+
+// Click on globe to select country (desktop)
+canvas.addEventListener('click', (event) => {
+  mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(countryMeshes, true);
+
+  if (intersects.length > 0) {
+    const c = intersects[0].object.userData;
+    updateDetailPanel(c);
+    highlightCountry(c.code);
+    controls.autoRotate = false;
+    setTimeout(() => { controls.autoRotate = true; }, 5000);
   }
 });
 
@@ -550,23 +663,6 @@ function updateMarkerColors(metric) {
     if (typeof val === 'string') val = parseInt(val.replace(/[$,TBM]/g, ''));
     const color = cfg.colorFn(val);
     marker.material.color.setHex(color);
-  });
-
-  // Update rings too
-  pointsGroup.children.forEach(child => {
-    if (child.userData.isRing && child.material) {
-      // Find corresponding country from nearest marker
-      const pos = child.position;
-      let closest = null;
-      let minDist = Infinity;
-      countryMeshes.forEach(m => {
-        const d = m.position.distanceTo(pos);
-        if (d < minDist) { minDist = d; closest = m; }
-      });
-      if (closest) {
-        child.material.color.copy(closest.material.color);
-      }
-    }
   });
 }
 
@@ -826,16 +922,6 @@ const clock = new THREE.Clock();
 function animate() {
   requestAnimationFrame(animate);
   const elapsed = clock.getElapsedTime();
-
-  // Pulse rings
-  pointsGroup.children.forEach(child => {
-    if (child.userData.isRing && child.material) {
-      const phase = child.userData.phase || 0;
-      const scale = 1 + Math.sin(elapsed * 2 + phase) * 0.5;
-      child.scale.set(scale, scale, scale);
-      child.material.opacity = 0.5 - Math.sin(elapsed * 2 + phase) * 0.25;
-    }
-  });
 
   // Move data packets
   packets.forEach(packet => {
