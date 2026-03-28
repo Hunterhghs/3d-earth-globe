@@ -8,12 +8,16 @@ import { CSS2DRenderer, CSS2DObject } from 'three/addons/renderers/CSS2DRenderer
 const canvas = document.getElementById('globe-canvas');
 const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 0.4, 3.2);
+const isMobileDevice = window.innerWidth <= 600 || ('ontouchstart' in window && window.innerWidth <= 768);
 
-const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+// On mobile, zoom in closer so the globe fills the screen nicely
+camera.position.set(0, isMobileDevice ? 0.2 : 0.4, isMobileDevice ? 2.6 : 3.2);
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: !isMobileDevice, alpha: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+// Cap pixel ratio lower on mobile for performance
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, isMobileDevice ? 1.5 : 2));
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.2;
 
@@ -33,9 +37,9 @@ document.body.appendChild(labelRenderer.domElement);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 controls.dampingFactor = 0.05;
-controls.rotateSpeed = 0.5;
-controls.zoomSpeed = 0.8;
-controls.minDistance = 1.8;
+controls.rotateSpeed = isMobileDevice ? 0.35 : 0.5;
+controls.zoomSpeed = isMobileDevice ? 0.6 : 0.8;
+controls.minDistance = isMobileDevice ? 1.6 : 1.8;
 controls.maxDistance = 6;
 controls.enablePan = false;
 controls.autoRotate = true;
@@ -445,7 +449,7 @@ arcRoutes.forEach(route => {
 // ============================================
 // Star Field
 // ============================================
-const starCount = 3000;
+const starCount = isMobileDevice ? 1500 : 3000;
 const starPositions = new Float32Array(starCount * 3);
 for (let i = 0; i < starCount; i++) {
   const r = 50 + Math.random() * 100;
@@ -567,6 +571,158 @@ function updateMarkerColors(metric) {
 }
 
 // ============================================
+// Mobile Touch Support
+// ============================================
+const isMobile = window.matchMedia('(max-width: 600px)').matches || 'ontouchstart' in window;
+const mobileDrawer = document.getElementById('mobile-drawer');
+const mobileDrawerGrid = document.getElementById('m-drawer-grid');
+const tapHint = document.getElementById('tap-hint');
+
+// Hide tap hint after first interaction
+let tapHintShown = true;
+function hideTapHint() {
+  if (tapHintShown && tapHint) {
+    tapHint.classList.add('hidden');
+    tapHintShown = false;
+    setTimeout(() => { if (tapHint) tapHint.style.display = 'none'; }, 1000);
+  }
+}
+
+// Drawer tab switching
+document.querySelectorAll('.drawer-tab[data-tab]').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.drawer-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.drawer-tab-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    const target = document.getElementById('m-tab-' + tab.dataset.tab);
+    if (target) target.classList.add('active');
+  });
+});
+
+// Info button opens drawer to SDG/Legend tab (no country needed)
+const mobileInfoBtn = document.getElementById('mobile-info-btn');
+if (mobileInfoBtn) {
+  mobileInfoBtn.addEventListener('click', () => {
+    if (!mobileDrawer) return;
+    const nameEl = document.getElementById('m-drawer-name');
+    const regionEl = document.getElementById('m-drawer-region');
+    const hdiEl = document.getElementById('m-drawer-hdi');
+    if (nameEl) nameEl.textContent = 'Global Data';
+    if (regionEl) regionEl.textContent = 'Development Overview';
+    if (hdiEl) hdiEl.textContent = '';
+    // Switch to SDG tab
+    document.querySelectorAll('.drawer-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.drawer-tab-content').forEach(c => c.classList.remove('active'));
+    const sdgTab = document.querySelector('.drawer-tab[data-tab="sdg"]');
+    const sdgContent = document.getElementById('m-tab-sdg');
+    if (sdgTab) sdgTab.classList.add('active');
+    if (sdgContent) sdgContent.classList.add('active');
+    mobileDrawer.classList.add('open');
+    hideTapHint();
+  });
+}
+
+// Mobile drawer open/close
+function openMobileDrawer(c) {
+  if (!mobileDrawer) return;
+  // Switch to stats tab when opening for a country
+  document.querySelectorAll('.drawer-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.drawer-tab-content').forEach(ct => ct.classList.remove('active'));
+  const statsTab = document.querySelector('.drawer-tab[data-tab="stats"]');
+  const statsContent = document.getElementById('m-tab-stats');
+  if (statsTab) statsTab.classList.add('active');
+  if (statsContent) statsContent.classList.add('active');
+
+  const nameEl = document.getElementById('m-drawer-name');
+  const regionEl = document.getElementById('m-drawer-region');
+  const hdiEl = document.getElementById('m-drawer-hdi');
+  const hdiBar = document.getElementById('m-drawer-hdi-bar');
+
+  if (nameEl) nameEl.textContent = c.name;
+  if (regionEl) regionEl.textContent = c.region;
+  if (hdiEl) {
+    hdiEl.textContent = c.hdi.toFixed(3);
+    hdiEl.style.color = hdiColorCSS(c.hdi);
+  }
+  if (hdiBar) hdiBar.style.left = (c.hdi * 100) + '%';
+
+  // Build stat grid
+  if (mobileDrawerGrid) {
+    mobileDrawerGrid.innerHTML = [
+      { label: 'Population', value: c.pop },
+      { label: 'GDP', value: c.gdp },
+      { label: 'GDP/Capita', value: c.gdppc },
+      { label: 'Life Expect.', value: c.lifeExp + ' yrs' },
+      { label: 'Literacy', value: c.literacy + '%' },
+      { label: 'Internet', value: c.internet + '%' },
+      { label: 'CO₂/capita', value: c.co2 + ' tons' },
+      { label: 'Gini Index', value: c.gini.toFixed(1) },
+    ].map(s => `<div class="drawer-stat"><div class="stat-label">${s.label}</div><div class="stat-value">${s.value}</div></div>`).join('');
+  }
+
+  mobileDrawer.classList.add('open');
+  hideTapHint();
+}
+
+function closeMobileDrawer() {
+  if (mobileDrawer) mobileDrawer.classList.remove('open');
+}
+
+// Close button
+const mDrawerClose = document.getElementById('m-drawer-close');
+if (mDrawerClose) mDrawerClose.addEventListener('click', closeMobileDrawer);
+
+// Tap on globe to select country (touch devices)
+canvas.addEventListener('touchend', (event) => {
+  if (event.changedTouches.length === 0) return;
+  const touch = event.changedTouches[0];
+  mouse.x = (touch.clientX / window.innerWidth) * 2 - 1;
+  mouse.y = -(touch.clientY / window.innerHeight) * 2 + 1;
+
+  raycaster.setFromCamera(mouse, camera);
+  const intersects = raycaster.intersectObjects(countryMeshes, true);
+
+  if (intersects.length > 0) {
+    const c = intersects[0].object.userData;
+    if (isMobile || window.innerWidth <= 600) {
+      openMobileDrawer(c);
+    } else {
+      updateDetailPanel(c);
+    }
+    // Stop auto-rotate briefly
+    controls.autoRotate = false;
+    setTimeout(() => { controls.autoRotate = true; }, 5000);
+  } else {
+    closeMobileDrawer();
+  }
+}, { passive: true });
+
+// Swipe-down to close drawer
+let drawerTouchStartY = 0;
+if (mobileDrawer) {
+  mobileDrawer.addEventListener('touchstart', (e) => {
+    drawerTouchStartY = e.touches[0].clientY;
+  }, { passive: true });
+  mobileDrawer.addEventListener('touchmove', (e) => {
+    const dy = e.touches[0].clientY - drawerTouchStartY;
+    if (dy > 60) closeMobileDrawer();
+  }, { passive: true });
+}
+
+// Mobile metric pills
+document.querySelectorAll('.m-pill[data-metric]').forEach(pill => {
+  pill.addEventListener('click', (e) => {
+    document.querySelectorAll('.m-pill[data-metric]').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    activeMetric = pill.dataset.metric;
+    updateMarkerColors(pill.dataset.metric);
+  });
+});
+
+// Auto-hide tap hint after 5 seconds
+if (tapHint) setTimeout(() => hideTapHint(), 8000);
+
+// ============================================
 // Mini Chart Drawing
 // ============================================
 function createMiniChart(containerId, color, data) {
@@ -632,10 +788,18 @@ setInterval(updateClock, 1000);
 // Resize
 // ============================================
 window.addEventListener('resize', () => {
+  const nowMobile = window.innerWidth <= 600;
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);
   labelRenderer.setSize(window.innerWidth, window.innerHeight);
+
+  // Adjust camera distance based on viewport
+  if (nowMobile && camera.position.z > 2.8) {
+    camera.position.set(0, 0.2, 2.6);
+  } else if (!nowMobile && camera.position.z < 2.8) {
+    camera.position.set(0, 0.4, 3.2);
+  }
 });
 
 // ============================================

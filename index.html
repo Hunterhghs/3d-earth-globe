@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
   <title>Global Development Dashboard</title>
   <link rel="stylesheet" href="style.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,6 +31,15 @@
         <span id="clock"></span>
       </div>
     </header>
+
+    <!-- Mobile Metric Nav (hidden on desktop) -->
+    <div class="mobile-metric-nav" id="mobile-metric-nav">
+      <button class="m-pill active" data-metric="hdi">HDI</button>
+      <button class="m-pill" data-metric="gdppc">GDP/Cap</button>
+      <button class="m-pill" data-metric="lifeExp">Life Exp.</button>
+      <button class="m-pill" data-metric="literacy">Literacy</button>
+      <button class="m-pill" data-metric="internet">Internet</button>
+    </div>
 
     <!-- Left Panel -->
     <aside id="left-panel">
@@ -175,6 +184,68 @@
     <div id="globe-label" class="globe-label hidden"></div>
 
   </div>
+
+  <!-- Mobile detail drawer (outside overlay for proper stacking) -->
+  <div class="mobile-detail-drawer" id="mobile-drawer">
+    <div class="drawer-handle"></div>
+    <div class="drawer-header">
+      <div>
+        <div class="drawer-title" id="m-drawer-name">Global Data</div>
+        <div style="font-size:12px; color:var(--text-dim); margin-top:2px;" id="m-drawer-region">—</div>
+      </div>
+      <div class="drawer-hdi" id="m-drawer-hdi">—</div>
+      <button class="drawer-close" id="m-drawer-close">&times;</button>
+    </div>
+
+    <!-- Drawer tabs -->
+    <div class="drawer-tabs" id="m-drawer-tabs">
+      <button class="drawer-tab active" data-tab="stats">Stats</button>
+      <button class="drawer-tab" data-tab="sdg">SDG Progress</button>
+      <button class="drawer-tab" data-tab="legend">Legend</button>
+    </div>
+
+    <!-- Stats tab -->
+    <div class="drawer-tab-content active" id="m-tab-stats">
+      <div class="hdi-bar-wrap" style="margin-top:0; padding-top:0; border-top:none;">
+        <div class="hdi-bar-track">
+          <div class="hdi-bar-fill" id="m-drawer-hdi-bar"></div>
+        </div>
+        <div class="hdi-bar-scale">
+          <span>0</span><span>Low</span><span>Medium</span><span>High</span><span>V.High</span><span>1</span>
+        </div>
+      </div>
+      <div class="drawer-grid" id="m-drawer-grid"></div>
+    </div>
+
+    <!-- SDG Progress tab -->
+    <div class="drawer-tab-content" id="m-tab-sdg">
+      <div class="m-bar-chart">
+        <div class="m-bar-row"><span class="m-bar-label">No Poverty</span><div class="m-bar-track"><div class="m-bar-fill green" style="width:64%"></div></div><span class="m-bar-pct">64%</span></div>
+        <div class="m-bar-row"><span class="m-bar-label">Zero Hunger</span><div class="m-bar-track"><div class="m-bar-fill yellow" style="width:48%"></div></div><span class="m-bar-pct">48%</span></div>
+        <div class="m-bar-row"><span class="m-bar-label">Good Health</span><div class="m-bar-track"><div class="m-bar-fill green" style="width:71%"></div></div><span class="m-bar-pct">71%</span></div>
+        <div class="m-bar-row"><span class="m-bar-label">Education</span><div class="m-bar-track"><div class="m-bar-fill green" style="width:68%"></div></div><span class="m-bar-pct">68%</span></div>
+        <div class="m-bar-row"><span class="m-bar-label">Clean Water</span><div class="m-bar-track"><div class="m-bar-fill yellow" style="width:55%"></div></div><span class="m-bar-pct">55%</span></div>
+        <div class="m-bar-row"><span class="m-bar-label">Clean Energy</span><div class="m-bar-track"><div class="m-bar-fill yellow" style="width:42%"></div></div><span class="m-bar-pct">42%</span></div>
+        <div class="m-bar-row"><span class="m-bar-label">Climate Action</span><div class="m-bar-track"><div class="m-bar-fill red" style="width:28%"></div></div><span class="m-bar-pct">28%</span></div>
+      </div>
+    </div>
+
+    <!-- Legend tab -->
+    <div class="drawer-tab-content" id="m-tab-legend">
+      <div class="m-legend-list">
+        <div class="m-legend-item"><span class="m-legend-dot" style="background:#34d399"></span>Very High HDI (&ge;0.800)</div>
+        <div class="m-legend-item"><span class="m-legend-dot" style="background:#38bdf8"></span>High HDI (0.700–0.799)</div>
+        <div class="m-legend-item"><span class="m-legend-dot" style="background:#fbbf24"></span>Medium HDI (0.550–0.699)</div>
+        <div class="m-legend-item"><span class="m-legend-dot" style="background:#f87171"></span>Low HDI (&lt;0.550)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile info button -->
+  <button class="mobile-info-btn" id="mobile-info-btn" aria-label="Show global data">&#9432;</button>
+
+  <!-- Mobile tap hint -->
+  <div class="tap-hint" id="tap-hint">Tap a country marker to view data</div>
 
   <!-- Three.js Canvas -->
   <canvas id="globe-canvas"></canvas>
