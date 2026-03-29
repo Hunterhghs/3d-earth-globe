@@ -152,119 +152,119 @@ function hdiColorCSS(hdi) {
 // Country Development Data
 // ============================================
 const countries = [
-  // North America
-  { name:'United States', code:'US', lat:39.8, lon:-98.6, region:'North America', pop:'339M', gdp:'$28.8T', gdppc:'$85,373', hdi:0.927, lifeExp:77.2, literacy:99, internet:92.0, co2:13.0, gini:39.8, major:true },
-  { name:'Canada', code:'CA', lat:56.1, lon:-106.3, region:'North America', pop:'41M', gdp:'$2.1T', gdppc:'$53,247', hdi:0.935, lifeExp:82.7, literacy:99, internet:93.5, co2:14.3, gini:33.3, major:true },
-  { name:'Mexico', code:'MX', lat:23.6, lon:-102.5, region:'Latin America', pop:'130M', gdp:'$1.8T', gdppc:'$13,811', hdi:0.758, lifeExp:75.0, literacy:95.4, internet:75.6, co2:3.6, gini:45.4, major:true },
+  // North America — poverty: % below national poverty line, cleanEnergy: % renewable share of energy, urban: % urban population
+  { name:'United States', code:'US', lat:39.8, lon:-98.6, region:'North America', pop:'339M', gdp:'$28.8T', gdppc:'$85,373', hdi:0.927, lifeExp:77.2, literacy:99, internet:92.0, co2:13.0, gini:39.8, poverty:1.2, cleanEnergy:21, urban:83, major:true },
+  { name:'Canada', code:'CA', lat:56.1, lon:-106.3, region:'North America', pop:'41M', gdp:'$2.1T', gdppc:'$53,247', hdi:0.935, lifeExp:82.7, literacy:99, internet:93.5, co2:14.3, gini:33.3, poverty:0.5, cleanEnergy:68, urban:82, major:true },
+  { name:'Mexico', code:'MX', lat:23.6, lon:-102.5, region:'Latin America', pop:'130M', gdp:'$1.8T', gdppc:'$13,811', hdi:0.758, lifeExp:75.0, literacy:95.4, internet:75.6, co2:3.6, gini:45.4, poverty:5.8, cleanEnergy:26, urban:81, major:true },
 
   // Central America & Caribbean
-  { name:'Guatemala', code:'GT', lat:15.5, lon:-90.2, region:'Latin America', pop:'18M', gdp:'$102B', gdppc:'$5,573', hdi:0.627, lifeExp:71.8, literacy:81.3, internet:51.0, co2:1.1, gini:48.3, major:false },
-  { name:'Costa Rica', code:'CR', lat:9.7, lon:-83.7, region:'Latin America', pop:'5.2M', gdp:'$70B', gdppc:'$13,576', hdi:0.806, lifeExp:80.3, literacy:98.0, internet:81.2, co2:1.6, gini:48.2, major:false },
-  { name:'Cuba', code:'CU', lat:21.5, lon:-77.8, region:'Latin America', pop:'11M', gdp:'$107B', gdppc:'$9,478', hdi:0.764, lifeExp:78.8, literacy:99.8, internet:71.0, co2:1.9, gini:38.0, major:false },
-  { name:'Jamaica', code:'JM', lat:18.1, lon:-77.3, region:'Latin America', pop:'3M', gdp:'$18B', gdppc:'$6,047', hdi:0.709, lifeExp:74.8, literacy:88.7, internet:82.0, co2:2.3, gini:35.0, major:false },
-  { name:'Haiti', code:'HT', lat:19.0, lon:-72.1, region:'Latin America', pop:'12M', gdp:'$20B', gdppc:'$1,748', hdi:0.535, lifeExp:64.0, literacy:61.7, internet:39.0, co2:0.3, gini:41.1, major:false },
+  { name:'Guatemala', code:'GT', lat:15.5, lon:-90.2, region:'Latin America', pop:'18M', gdp:'$102B', gdppc:'$5,573', hdi:0.627, lifeExp:71.8, literacy:81.3, internet:51.0, co2:1.1, gini:48.3, poverty:8.7, cleanEnergy:62, urban:52, major:false },
+  { name:'Costa Rica', code:'CR', lat:9.7, lon:-83.7, region:'Latin America', pop:'5.2M', gdp:'$70B', gdppc:'$13,576', hdi:0.806, lifeExp:80.3, literacy:98.0, internet:81.2, co2:1.6, gini:48.2, poverty:1.4, cleanEnergy:93, urban:82, major:false },
+  { name:'Cuba', code:'CU', lat:21.5, lon:-77.8, region:'Latin America', pop:'11M', gdp:'$107B', gdppc:'$9,478', hdi:0.764, lifeExp:78.8, literacy:99.8, internet:71.0, co2:1.9, gini:38.0, poverty:2.0, cleanEnergy:32, urban:77, major:false },
+  { name:'Jamaica', code:'JM', lat:18.1, lon:-77.3, region:'Latin America', pop:'3M', gdp:'$18B', gdppc:'$6,047', hdi:0.709, lifeExp:74.8, literacy:88.7, internet:82.0, co2:2.3, gini:35.0, poverty:3.2, cleanEnergy:12, urban:57, major:false },
+  { name:'Haiti', code:'HT', lat:19.0, lon:-72.1, region:'Latin America', pop:'12M', gdp:'$20B', gdppc:'$1,748', hdi:0.535, lifeExp:64.0, literacy:61.7, internet:39.0, co2:0.3, gini:41.1, poverty:54.0, cleanEnergy:4, urban:59, major:false },
 
   // South America
-  { name:'Brazil', code:'BR', lat:-14.2, lon:-51.9, region:'Latin America', pop:'216M', gdp:'$2.1T', gdppc:'$10,413', hdi:0.760, lifeExp:76.0, literacy:94.4, internet:81.3, co2:2.1, gini:48.9, major:true },
-  { name:'Argentina', code:'AR', lat:-38.4, lon:-63.6, region:'Latin America', pop:'46M', gdp:'$621B', gdppc:'$13,709', hdi:0.842, lifeExp:77.1, literacy:99.0, internet:87.1, co2:3.9, gini:42.3, major:true },
-  { name:'Colombia', code:'CO', lat:4.6, lon:-74.1, region:'Latin America', pop:'52M', gdp:'$334B', gdppc:'$6,630', hdi:0.752, lifeExp:77.3, literacy:95.6, internet:73.4, co2:1.6, gini:51.3, major:false },
-  { name:'Chile', code:'CL', lat:-35.7, lon:-71.5, region:'Latin America', pop:'19M', gdp:'$301B', gdppc:'$15,356', hdi:0.855, lifeExp:80.2, literacy:96.8, internet:90.2, co2:4.3, gini:44.9, major:false },
-  { name:'Peru', code:'PE', lat:-9.2, lon:-75.0, region:'Latin America', pop:'34M', gdp:'$242B', gdppc:'$7,126', hdi:0.762, lifeExp:76.7, literacy:94.5, internet:71.1, co2:1.6, gini:43.8, major:false },
-  { name:'Venezuela', code:'VE', lat:6.4, lon:-66.6, region:'Latin America', pop:'28M', gdp:'$92B', gdppc:'$3,200', hdi:0.691, lifeExp:72.1, literacy:97.1, internet:72.0, co2:2.7, gini:44.8, major:false },
+  { name:'Brazil', code:'BR', lat:-14.2, lon:-51.9, region:'Latin America', pop:'216M', gdp:'$2.1T', gdppc:'$10,413', hdi:0.760, lifeExp:76.0, literacy:94.4, internet:81.3, co2:2.1, gini:48.9, poverty:5.8, cleanEnergy:83, urban:88, major:true },
+  { name:'Argentina', code:'AR', lat:-38.4, lon:-63.6, region:'Latin America', pop:'46M', gdp:'$621B', gdppc:'$13,709', hdi:0.842, lifeExp:77.1, literacy:99.0, internet:87.1, co2:3.9, gini:42.3, poverty:3.4, cleanEnergy:30, urban:92, major:true },
+  { name:'Colombia', code:'CO', lat:4.6, lon:-74.1, region:'Latin America', pop:'52M', gdp:'$334B', gdppc:'$6,630', hdi:0.752, lifeExp:77.3, literacy:95.6, internet:73.4, co2:1.6, gini:51.3, poverty:6.1, cleanEnergy:72, urban:82, major:false },
+  { name:'Chile', code:'CL', lat:-35.7, lon:-71.5, region:'Latin America', pop:'19M', gdp:'$301B', gdppc:'$15,356', hdi:0.855, lifeExp:80.2, literacy:96.8, internet:90.2, co2:4.3, gini:44.9, poverty:1.3, cleanEnergy:49, urban:88, major:false },
+  { name:'Peru', code:'PE', lat:-9.2, lon:-75.0, region:'Latin America', pop:'34M', gdp:'$242B', gdppc:'$7,126', hdi:0.762, lifeExp:76.7, literacy:94.5, internet:71.1, co2:1.6, gini:43.8, poverty:5.6, cleanEnergy:60, urban:79, major:false },
+  { name:'Venezuela', code:'VE', lat:6.4, lon:-66.6, region:'Latin America', pop:'28M', gdp:'$92B', gdppc:'$3,200', hdi:0.691, lifeExp:72.1, literacy:97.1, internet:72.0, co2:2.7, gini:44.8, poverty:33.1, cleanEnergy:67, urban:88, major:false },
 
   // Europe
-  { name:'United Kingdom', code:'GB', lat:55.4, lon:-3.4, region:'Europe', pop:'68M', gdp:'$3.5T', gdppc:'$48,913', hdi:0.929, lifeExp:80.7, literacy:99, internet:95.0, co2:4.7, gini:35.1, major:true },
-  { name:'Germany', code:'DE', lat:51.2, lon:10.4, region:'Europe', pop:'84M', gdp:'$4.6T', gdppc:'$54,291', hdi:0.942, lifeExp:80.6, literacy:99, internet:93.0, co2:7.7, gini:31.7, major:true },
-  { name:'France', code:'FR', lat:46.2, lon:2.2, region:'Europe', pop:'68M', gdp:'$3.1T', gdppc:'$44,408', hdi:0.903, lifeExp:82.5, literacy:99, internet:90.0, co2:4.3, gini:32.4, major:true },
-  { name:'Italy', code:'IT', lat:41.9, lon:12.6, region:'Europe', pop:'59M', gdp:'$2.3T', gdppc:'$38,161', hdi:0.895, lifeExp:83.5, literacy:99.2, internet:87.0, co2:5.0, gini:35.9, major:true },
-  { name:'Spain', code:'ES', lat:40.5, lon:-3.7, region:'Europe', pop:'48M', gdp:'$1.6T', gdppc:'$32,551', hdi:0.905, lifeExp:83.6, literacy:98.6, internet:93.2, co2:4.8, gini:34.7, major:true },
-  { name:'Netherlands', code:'NL', lat:52.1, lon:5.3, region:'Europe', pop:'18M', gdp:'$1.1T', gdppc:'$62,448', hdi:0.946, lifeExp:81.7, literacy:99, internet:95.6, co2:7.8, gini:28.1, major:false },
-  { name:'Sweden', code:'SE', lat:60.1, lon:18.6, region:'Europe', pop:'10.5M', gdp:'$593B', gdppc:'$56,361', hdi:0.947, lifeExp:83.2, literacy:99, internet:96.4, co2:3.6, gini:30.0, major:false },
-  { name:'Norway', code:'NO', lat:60.5, lon:8.5, region:'Europe', pop:'5.5M', gdp:'$579B', gdppc:'$106,149', hdi:0.966, lifeExp:83.3, literacy:99, internet:98.4, co2:6.7, gini:27.6, major:false },
-  { name:'Switzerland', code:'CH', lat:46.8, lon:8.2, region:'Europe', pop:'8.8M', gdp:'$884B', gdppc:'$99,994', hdi:0.962, lifeExp:83.4, literacy:99, internet:96.0, co2:3.8, gini:33.1, major:false },
-  { name:'Poland', code:'PL', lat:51.9, lon:19.1, region:'Europe', pop:'38M', gdp:'$842B', gdppc:'$22,393', hdi:0.876, lifeExp:77.5, literacy:99.8, internet:87.7, co2:7.3, gini:29.7, major:false },
-  { name:'Ukraine', code:'UA', lat:48.4, lon:31.2, region:'Europe', pop:'37M', gdp:'$161B', gdppc:'$4,534', hdi:0.773, lifeExp:73.6, literacy:99.8, internet:79.0, co2:3.5, gini:26.6, major:false },
-  { name:'Romania', code:'RO', lat:45.9, lon:24.9, region:'Europe', pop:'19M', gdp:'$301B', gdppc:'$15,822', hdi:0.821, lifeExp:76.0, literacy:98.8, internet:84.4, co2:3.4, gini:34.8, major:false },
-  { name:'Greece', code:'GR', lat:39.1, lon:21.8, region:'Europe', pop:'10.4M', gdp:'$239B', gdppc:'$22,440', hdi:0.887, lifeExp:80.1, literacy:97.9, internet:85.0, co2:5.3, gini:32.9, major:false },
-  { name:'Portugal', code:'PT', lat:39.4, lon:-8.2, region:'Europe', pop:'10.3M', gdp:'$268B', gdppc:'$26,020', hdi:0.866, lifeExp:81.1, literacy:96.1, internet:85.3, co2:4.0, gini:33.8, major:false },
-  { name:'Finland', code:'FI', lat:61.9, lon:25.7, region:'Europe', pop:'5.6M', gdp:'$300B', gdppc:'$53,654', hdi:0.940, lifeExp:81.9, literacy:99, internet:95.5, co2:6.5, gini:27.3, major:false },
-  { name:'Ireland', code:'IE', lat:53.1, lon:-7.7, region:'Europe', pop:'5.1M', gdp:'$533B', gdppc:'$103,685', hdi:0.945, lifeExp:82.0, literacy:99, internet:92.0, co2:7.1, gini:30.6, major:false },
+  { name:'United Kingdom', code:'GB', lat:55.4, lon:-3.4, region:'Europe', pop:'68M', gdp:'$3.5T', gdppc:'$48,913', hdi:0.929, lifeExp:80.7, literacy:99, internet:95.0, co2:4.7, gini:35.1, poverty:0.2, cleanEnergy:43, urban:84, major:true },
+  { name:'Germany', code:'DE', lat:51.2, lon:10.4, region:'Europe', pop:'84M', gdp:'$4.6T', gdppc:'$54,291', hdi:0.942, lifeExp:80.6, literacy:99, internet:93.0, co2:7.7, gini:31.7, poverty:0.2, cleanEnergy:46, urban:78, major:true },
+  { name:'France', code:'FR', lat:46.2, lon:2.2, region:'Europe', pop:'68M', gdp:'$3.1T', gdppc:'$44,408', hdi:0.903, lifeExp:82.5, literacy:99, internet:90.0, co2:4.3, gini:32.4, poverty:0.1, cleanEnergy:47, urban:82, major:true },
+  { name:'Italy', code:'IT', lat:41.9, lon:12.6, region:'Europe', pop:'59M', gdp:'$2.3T', gdppc:'$38,161', hdi:0.895, lifeExp:83.5, literacy:99.2, internet:87.0, co2:5.0, gini:35.9, poverty:1.5, cleanEnergy:37, urban:72, major:true },
+  { name:'Spain', code:'ES', lat:40.5, lon:-3.7, region:'Europe', pop:'48M', gdp:'$1.6T', gdppc:'$32,551', hdi:0.905, lifeExp:83.6, literacy:98.6, internet:93.2, co2:4.8, gini:34.7, poverty:1.0, cleanEnergy:42, urban:81, major:true },
+  { name:'Netherlands', code:'NL', lat:52.1, lon:5.3, region:'Europe', pop:'18M', gdp:'$1.1T', gdppc:'$62,448', hdi:0.946, lifeExp:81.7, literacy:99, internet:95.6, co2:7.8, gini:28.1, poverty:0.1, cleanEnergy:33, urban:93, major:false },
+  { name:'Sweden', code:'SE', lat:60.1, lon:18.6, region:'Europe', pop:'10.5M', gdp:'$593B', gdppc:'$56,361', hdi:0.947, lifeExp:83.2, literacy:99, internet:96.4, co2:3.6, gini:30.0, poverty:0.5, cleanEnergy:60, urban:89, major:false },
+  { name:'Norway', code:'NO', lat:60.5, lon:8.5, region:'Europe', pop:'5.5M', gdp:'$579B', gdppc:'$106,149', hdi:0.966, lifeExp:83.3, literacy:99, internet:98.4, co2:6.7, gini:27.6, poverty:0.2, cleanEnergy:98, urban:84, major:false },
+  { name:'Switzerland', code:'CH', lat:46.8, lon:8.2, region:'Europe', pop:'8.8M', gdp:'$884B', gdppc:'$99,994', hdi:0.962, lifeExp:83.4, literacy:99, internet:96.0, co2:3.8, gini:33.1, poverty:0.1, cleanEnergy:67, urban:74, major:false },
+  { name:'Poland', code:'PL', lat:51.9, lon:19.1, region:'Europe', pop:'38M', gdp:'$842B', gdppc:'$22,393', hdi:0.876, lifeExp:77.5, literacy:99.8, internet:87.7, co2:7.3, gini:29.7, poverty:0.4, cleanEnergy:23, urban:60, major:false },
+  { name:'Ukraine', code:'UA', lat:48.4, lon:31.2, region:'Europe', pop:'37M', gdp:'$161B', gdppc:'$4,534', hdi:0.773, lifeExp:73.6, literacy:99.8, internet:79.0, co2:3.5, gini:26.6, poverty:1.1, cleanEnergy:12, urban:70, major:false },
+  { name:'Romania', code:'RO', lat:45.9, lon:24.9, region:'Europe', pop:'19M', gdp:'$301B', gdppc:'$15,822', hdi:0.821, lifeExp:76.0, literacy:98.8, internet:84.4, co2:3.4, gini:34.8, poverty:2.0, cleanEnergy:37, urban:55, major:false },
+  { name:'Greece', code:'GR', lat:39.1, lon:21.8, region:'Europe', pop:'10.4M', gdp:'$239B', gdppc:'$22,440', hdi:0.887, lifeExp:80.1, literacy:97.9, internet:85.0, co2:5.3, gini:32.9, poverty:1.0, cleanEnergy:35, urban:80, major:false },
+  { name:'Portugal', code:'PT', lat:39.4, lon:-8.2, region:'Europe', pop:'10.3M', gdp:'$268B', gdppc:'$26,020', hdi:0.866, lifeExp:81.1, literacy:96.1, internet:85.3, co2:4.0, gini:33.8, poverty:0.5, cleanEnergy:56, urban:67, major:false },
+  { name:'Finland', code:'FI', lat:61.9, lon:25.7, region:'Europe', pop:'5.6M', gdp:'$300B', gdppc:'$53,654', hdi:0.940, lifeExp:81.9, literacy:99, internet:95.5, co2:6.5, gini:27.3, poverty:0.1, cleanEnergy:44, urban:86, major:false },
+  { name:'Ireland', code:'IE', lat:53.1, lon:-7.7, region:'Europe', pop:'5.1M', gdp:'$533B', gdppc:'$103,685', hdi:0.945, lifeExp:82.0, literacy:99, internet:92.0, co2:7.1, gini:30.6, poverty:0.2, cleanEnergy:40, urban:64, major:false },
 
   // Russia & Central Asia
-  { name:'Russia', code:'RU', lat:61.5, lon:105.3, region:'Europe/Asia', pop:'144M', gdp:'$2.2T', gdppc:'$15,345', hdi:0.822, lifeExp:73.2, literacy:99.7, internet:88.0, co2:10.8, gini:36.0, major:true },
-  { name:'Kazakhstan', code:'KZ', lat:48.0, lon:68.0, region:'Central Asia', pop:'20M', gdp:'$261B', gdppc:'$13,190', hdi:0.802, lifeExp:71.4, literacy:99.8, internet:86.0, co2:12.1, gini:27.8, major:false },
-  { name:'Uzbekistan', code:'UZ', lat:41.4, lon:64.6, region:'Central Asia', pop:'36M', gdp:'$90B', gdppc:'$2,568', hdi:0.727, lifeExp:72.0, literacy:99.6, internet:73.0, co2:3.2, gini:35.3, major:false },
+  { name:'Russia', code:'RU', lat:61.5, lon:105.3, region:'Europe/Asia', pop:'144M', gdp:'$2.2T', gdppc:'$15,345', hdi:0.822, lifeExp:73.2, literacy:99.7, internet:88.0, co2:10.8, gini:36.0, poverty:0.3, cleanEnergy:20, urban:75, major:true },
+  { name:'Kazakhstan', code:'KZ', lat:48.0, lon:68.0, region:'Central Asia', pop:'20M', gdp:'$261B', gdppc:'$13,190', hdi:0.802, lifeExp:71.4, literacy:99.8, internet:86.0, co2:12.1, gini:27.8, poverty:0.3, cleanEnergy:12, urban:58, major:false },
+  { name:'Uzbekistan', code:'UZ', lat:41.4, lon:64.6, region:'Central Asia', pop:'36M', gdp:'$90B', gdppc:'$2,568', hdi:0.727, lifeExp:72.0, literacy:99.6, internet:73.0, co2:3.2, gini:35.3, poverty:6.7, cleanEnergy:14, urban:50, major:false },
 
   // Middle East
-  { name:'Turkey', code:'TR', lat:38.9, lon:35.2, region:'Middle East', pop:'85M', gdp:'$1.1T', gdppc:'$13,110', hdi:0.838, lifeExp:76.0, literacy:96.7, internet:83.4, co2:5.1, gini:41.9, major:true },
-  { name:'Saudi Arabia', code:'SA', lat:23.9, lon:45.1, region:'Middle East', pop:'37M', gdp:'$1.1T', gdppc:'$29,922', hdi:0.875, lifeExp:77.6, literacy:97.6, internet:97.9, co2:15.3, gini:45.9, major:true },
-  { name:'UAE', code:'AE', lat:23.4, lon:53.8, region:'Middle East', pop:'10M', gdp:'$509B', gdppc:'$49,451', hdi:0.911, lifeExp:79.1, literacy:97.6, internet:99.0, co2:20.7, gini:32.5, major:false },
-  { name:'Israel', code:'IL', lat:31.0, lon:34.9, region:'Middle East', pop:'9.8M', gdp:'$525B', gdppc:'$54,688', hdi:0.915, lifeExp:82.6, literacy:97.8, internet:90.3, co2:6.2, gini:38.6, major:false },
-  { name:'Iran', code:'IR', lat:32.4, lon:53.7, region:'Middle East', pop:'89M', gdp:'$368B', gdppc:'$4,091', hdi:0.774, lifeExp:77.0, literacy:88.7, internet:79.0, co2:8.5, gini:40.9, major:true },
-  { name:'Iraq', code:'IQ', lat:33.2, lon:43.7, region:'Middle East', pop:'44M', gdp:'$264B', gdppc:'$5,969', hdi:0.686, lifeExp:71.6, literacy:85.6, internet:75.0, co2:4.0, gini:29.5, major:false },
-  { name:'Jordan', code:'JO', lat:30.6, lon:36.2, region:'Middle East', pop:'11M', gdp:'$50B', gdppc:'$4,660', hdi:0.736, lifeExp:75.1, literacy:98.2, internet:83.0, co2:2.4, gini:33.7, major:false },
-  { name:'Yemen', code:'YE', lat:15.6, lon:48.5, region:'Middle East', pop:'34M', gdp:'$21B', gdppc:'$600', hdi:0.455, lifeExp:63.4, literacy:70.1, internet:27.0, co2:0.3, gini:36.7, major:false },
+  { name:'Turkey', code:'TR', lat:38.9, lon:35.2, region:'Middle East', pop:'85M', gdp:'$1.1T', gdppc:'$13,110', hdi:0.838, lifeExp:76.0, literacy:96.7, internet:83.4, co2:5.1, gini:41.9, poverty:0.4, cleanEnergy:42, urban:77, major:true },
+  { name:'Saudi Arabia', code:'SA', lat:23.9, lon:45.1, region:'Middle East', pop:'37M', gdp:'$1.1T', gdppc:'$29,922', hdi:0.875, lifeExp:77.6, literacy:97.6, internet:97.9, co2:15.3, gini:45.9, poverty:0.2, cleanEnergy:1, urban:85, major:true },
+  { name:'UAE', code:'AE', lat:23.4, lon:53.8, region:'Middle East', pop:'10M', gdp:'$509B', gdppc:'$49,451', hdi:0.911, lifeExp:79.1, literacy:97.6, internet:99.0, co2:20.7, gini:32.5, poverty:0.0, cleanEnergy:7, urban:87, major:false },
+  { name:'Israel', code:'IL', lat:31.0, lon:34.9, region:'Middle East', pop:'9.8M', gdp:'$525B', gdppc:'$54,688', hdi:0.915, lifeExp:82.6, literacy:97.8, internet:90.3, co2:6.2, gini:38.6, poverty:0.5, cleanEnergy:10, urban:93, major:false },
+  { name:'Iran', code:'IR', lat:32.4, lon:53.7, region:'Middle East', pop:'89M', gdp:'$368B', gdppc:'$4,091', hdi:0.774, lifeExp:77.0, literacy:88.7, internet:79.0, co2:8.5, gini:40.9, poverty:1.2, cleanEnergy:7, urban:77, major:true },
+  { name:'Iraq', code:'IQ', lat:33.2, lon:43.7, region:'Middle East', pop:'44M', gdp:'$264B', gdppc:'$5,969', hdi:0.686, lifeExp:71.6, literacy:85.6, internet:75.0, co2:4.0, gini:29.5, poverty:2.5, cleanEnergy:3, urban:71, major:false },
+  { name:'Jordan', code:'JO', lat:30.6, lon:36.2, region:'Middle East', pop:'11M', gdp:'$50B', gdppc:'$4,660', hdi:0.736, lifeExp:75.1, literacy:98.2, internet:83.0, co2:2.4, gini:33.7, poverty:0.1, cleanEnergy:15, urban:92, major:false },
+  { name:'Yemen', code:'YE', lat:15.6, lon:48.5, region:'Middle East', pop:'34M', gdp:'$21B', gdppc:'$600', hdi:0.455, lifeExp:63.4, literacy:70.1, internet:27.0, co2:0.3, gini:36.7, poverty:48.6, cleanEnergy:2, urban:39, major:false },
 
   // South Asia
-  { name:'India', code:'IN', lat:20.6, lon:79.0, region:'South Asia', pop:'1.44B', gdp:'$3.9T', gdppc:'$2,730', hdi:0.644, lifeExp:70.8, literacy:74.4, internet:52.4, co2:1.9, gini:35.7, major:true },
-  { name:'Pakistan', code:'PK', lat:30.4, lon:69.3, region:'South Asia', pop:'240M', gdp:'$340B', gdppc:'$1,505', hdi:0.544, lifeExp:67.3, literacy:58.0, internet:36.7, co2:0.9, gini:29.6, major:true },
-  { name:'Bangladesh', code:'BD', lat:23.7, lon:90.4, region:'South Asia', pop:'173M', gdp:'$460B', gdppc:'$2,688', hdi:0.670, lifeExp:72.4, literacy:74.7, internet:38.9, co2:0.6, gini:32.4, major:false },
-  { name:'Sri Lanka', code:'LK', lat:7.9, lon:80.8, region:'South Asia', pop:'22M', gdp:'$75B', gdppc:'$3,354', hdi:0.782, lifeExp:77.4, literacy:92.3, internet:52.0, co2:1.0, gini:39.3, major:false },
-  { name:'Nepal', code:'NP', lat:28.4, lon:84.1, region:'South Asia', pop:'31M', gdp:'$42B', gdppc:'$1,337', hdi:0.601, lifeExp:70.8, literacy:67.9, internet:45.0, co2:0.4, gini:32.8, major:false },
-  { name:'Afghanistan', code:'AF', lat:33.9, lon:67.7, region:'South Asia', pop:'42M', gdp:'$14B', gdppc:'$364', hdi:0.462, lifeExp:62.0, literacy:37.3, internet:18.0, co2:0.2, gini:31.6, major:false },
+  { name:'India', code:'IN', lat:20.6, lon:79.0, region:'South Asia', pop:'1.44B', gdp:'$3.9T', gdppc:'$2,730', hdi:0.644, lifeExp:70.8, literacy:74.4, internet:52.4, co2:1.9, gini:35.7, poverty:12.0, cleanEnergy:22, urban:36, major:true },
+  { name:'Pakistan', code:'PK', lat:30.4, lon:69.3, region:'South Asia', pop:'240M', gdp:'$340B', gdppc:'$1,505', hdi:0.544, lifeExp:67.3, literacy:58.0, internet:36.7, co2:0.9, gini:29.6, poverty:21.9, cleanEnergy:8, urban:37, major:true },
+  { name:'Bangladesh', code:'BD', lat:23.7, lon:90.4, region:'South Asia', pop:'173M', gdp:'$460B', gdppc:'$2,688', hdi:0.670, lifeExp:72.4, literacy:74.7, internet:38.9, co2:0.6, gini:32.4, poverty:14.3, cleanEnergy:3, urban:40, major:false },
+  { name:'Sri Lanka', code:'LK', lat:7.9, lon:80.8, region:'South Asia', pop:'22M', gdp:'$75B', gdppc:'$3,354', hdi:0.782, lifeExp:77.4, literacy:92.3, internet:52.0, co2:1.0, gini:39.3, poverty:1.9, cleanEnergy:51, urban:19, major:false },
+  { name:'Nepal', code:'NP', lat:28.4, lon:84.1, region:'South Asia', pop:'31M', gdp:'$42B', gdppc:'$1,337', hdi:0.601, lifeExp:70.8, literacy:67.9, internet:45.0, co2:0.4, gini:32.8, poverty:15.0, cleanEnergy:85, urban:22, major:false },
+  { name:'Afghanistan', code:'AF', lat:33.9, lon:67.7, region:'South Asia', pop:'42M', gdp:'$14B', gdppc:'$364', hdi:0.462, lifeExp:62.0, literacy:37.3, internet:18.0, co2:0.2, gini:31.6, poverty:54.5, cleanEnergy:47, urban:26, major:false },
 
   // East Asia
-  { name:'China', code:'CN', lat:35.9, lon:104.2, region:'East Asia', pop:'1.43B', gdp:'$18.5T', gdppc:'$12,970', hdi:0.788, lifeExp:78.2, literacy:97.3, internet:73.7, co2:8.0, gini:38.2, major:true },
-  { name:'Japan', code:'JP', lat:36.2, lon:138.3, region:'East Asia', pop:'124M', gdp:'$4.2T', gdppc:'$33,950', hdi:0.920, lifeExp:84.8, literacy:99, internet:93.0, co2:8.0, gini:32.9, major:true },
-  { name:'South Korea', code:'KR', lat:35.9, lon:127.8, region:'East Asia', pop:'52M', gdp:'$1.7T', gdppc:'$33,147', hdi:0.929, lifeExp:83.7, literacy:98, internet:97.6, co2:11.6, gini:31.4, major:true },
-  { name:'Mongolia', code:'MN', lat:46.9, lon:103.8, region:'East Asia', pop:'3.4M', gdp:'$19B', gdppc:'$5,483', hdi:0.741, lifeExp:71.5, literacy:98.4, internet:63.0, co2:7.1, gini:32.7, major:false },
-  { name:'Taiwan', code:'TW', lat:23.7, lon:121.0, region:'East Asia', pop:'24M', gdp:'$790B', gdppc:'$33,775', hdi:0.926, lifeExp:81.0, literacy:99, internet:93.0, co2:11.2, gini:33.6, major:false },
+  { name:'China', code:'CN', lat:35.9, lon:104.2, region:'East Asia', pop:'1.43B', gdp:'$18.5T', gdppc:'$12,970', hdi:0.788, lifeExp:78.2, literacy:97.3, internet:73.7, co2:8.0, gini:38.2, poverty:0.1, cleanEnergy:30, urban:65, major:true },
+  { name:'Japan', code:'JP', lat:36.2, lon:138.3, region:'East Asia', pop:'124M', gdp:'$4.2T', gdppc:'$33,950', hdi:0.920, lifeExp:84.8, literacy:99, internet:93.0, co2:8.0, gini:32.9, poverty:0.7, cleanEnergy:22, urban:92, major:true },
+  { name:'South Korea', code:'KR', lat:35.9, lon:127.8, region:'East Asia', pop:'52M', gdp:'$1.7T', gdppc:'$33,147', hdi:0.929, lifeExp:83.7, literacy:98, internet:97.6, co2:11.6, gini:31.4, poverty:0.2, cleanEnergy:9, urban:81, major:true },
+  { name:'Mongolia', code:'MN', lat:46.9, lon:103.8, region:'East Asia', pop:'3.4M', gdp:'$19B', gdppc:'$5,483', hdi:0.741, lifeExp:71.5, literacy:98.4, internet:63.0, co2:7.1, gini:32.7, poverty:0.8, cleanEnergy:14, urban:69, major:false },
+  { name:'Taiwan', code:'TW', lat:23.7, lon:121.0, region:'East Asia', pop:'24M', gdp:'$790B', gdppc:'$33,775', hdi:0.926, lifeExp:81.0, literacy:99, internet:93.0, co2:11.2, gini:33.6, poverty:0.1, cleanEnergy:8, urban:79, major:false },
 
   // Southeast Asia
-  { name:'Indonesia', code:'ID', lat:-0.8, lon:113.9, region:'Southeast Asia', pop:'277M', gdp:'$1.4T', gdppc:'$5,016', hdi:0.713, lifeExp:71.7, literacy:96.0, internet:66.5, co2:2.3, gini:37.9, major:true },
-  { name:'Philippines', code:'PH', lat:12.9, lon:121.8, region:'Southeast Asia', pop:'117M', gdp:'$435B', gdppc:'$3,859', hdi:0.710, lifeExp:72.0, literacy:96.3, internet:68.0, co2:1.3, gini:42.3, major:false },
-  { name:'Vietnam', code:'VN', lat:14.1, lon:108.3, region:'Southeast Asia', pop:'100M', gdp:'$449B', gdppc:'$4,475', hdi:0.726, lifeExp:75.4, literacy:95.8, internet:73.2, co2:3.5, gini:35.7, major:false },
-  { name:'Thailand', code:'TH', lat:15.9, lon:101.0, region:'Southeast Asia', pop:'72M', gdp:'$535B', gdppc:'$7,336', hdi:0.800, lifeExp:78.7, literacy:93.8, internet:85.3, co2:3.8, gini:34.9, major:false },
-  { name:'Malaysia', code:'MY', lat:4.2, lon:101.9, region:'Southeast Asia', pop:'34M', gdp:'$434B', gdppc:'$13,034', hdi:0.803, lifeExp:76.2, literacy:95.0, internet:89.6, co2:7.6, gini:41.2, major:false },
-  { name:'Singapore', code:'SG', lat:1.35, lon:103.82, region:'Southeast Asia', pop:'5.9M', gdp:'$498B', gdppc:'$84,500', hdi:0.939, lifeExp:83.5, literacy:97.5, internet:96.9, co2:6.5, gini:45.9, major:false },
-  { name:'Myanmar', code:'MM', lat:19.8, lon:96.2, region:'Southeast Asia', pop:'55M', gdp:'$59B', gdppc:'$1,095', hdi:0.585, lifeExp:69.1, literacy:89.1, internet:44.0, co2:0.5, gini:30.7, major:false },
-  { name:'Cambodia', code:'KH', lat:12.6, lon:105.0, region:'Southeast Asia', pop:'17M', gdp:'$31B', gdppc:'$1,785', hdi:0.600, lifeExp:70.1, literacy:82.5, internet:60.0, co2:0.6, gini:37.9, major:false },
+  { name:'Indonesia', code:'ID', lat:-0.8, lon:113.9, region:'Southeast Asia', pop:'277M', gdp:'$1.4T', gdppc:'$5,016', hdi:0.713, lifeExp:71.7, literacy:96.0, internet:66.5, co2:2.3, gini:37.9, poverty:3.7, cleanEnergy:23, urban:58, major:true },
+  { name:'Philippines', code:'PH', lat:12.9, lon:121.8, region:'Southeast Asia', pop:'117M', gdp:'$435B', gdppc:'$3,859', hdi:0.710, lifeExp:72.0, literacy:96.3, internet:68.0, co2:1.3, gini:42.3, poverty:6.4, cleanEnergy:22, urban:48, major:false },
+  { name:'Vietnam', code:'VN', lat:14.1, lon:108.3, region:'Southeast Asia', pop:'100M', gdp:'$449B', gdppc:'$4,475', hdi:0.726, lifeExp:75.4, literacy:95.8, internet:73.2, co2:3.5, gini:35.7, poverty:1.8, cleanEnergy:34, urban:39, major:false },
+  { name:'Thailand', code:'TH', lat:15.9, lon:101.0, region:'Southeast Asia', pop:'72M', gdp:'$535B', gdppc:'$7,336', hdi:0.800, lifeExp:78.7, literacy:93.8, internet:85.3, co2:3.8, gini:34.9, poverty:0.1, cleanEnergy:20, urban:53, major:false },
+  { name:'Malaysia', code:'MY', lat:4.2, lon:101.9, region:'Southeast Asia', pop:'34M', gdp:'$434B', gdppc:'$13,034', hdi:0.803, lifeExp:76.2, literacy:95.0, internet:89.6, co2:7.6, gini:41.2, poverty:0.0, cleanEnergy:17, urban:78, major:false },
+  { name:'Singapore', code:'SG', lat:1.35, lon:103.82, region:'Southeast Asia', pop:'5.9M', gdp:'$498B', gdppc:'$84,500', hdi:0.939, lifeExp:83.5, literacy:97.5, internet:96.9, co2:6.5, gini:45.9, poverty:0.0, cleanEnergy:4, urban:100, major:false },
+  { name:'Myanmar', code:'MM', lat:19.8, lon:96.2, region:'Southeast Asia', pop:'55M', gdp:'$59B', gdppc:'$1,095', hdi:0.585, lifeExp:69.1, literacy:89.1, internet:44.0, co2:0.5, gini:30.7, poverty:24.8, cleanEnergy:56, urban:32, major:false },
+  { name:'Cambodia', code:'KH', lat:12.6, lon:105.0, region:'Southeast Asia', pop:'17M', gdp:'$31B', gdppc:'$1,785', hdi:0.600, lifeExp:70.1, literacy:82.5, internet:60.0, co2:0.6, gini:37.9, poverty:16.6, cleanEnergy:49, urban:25, major:false },
 
   // Africa — North
-  { name:'Egypt', code:'EG', lat:26.8, lon:30.8, region:'North Africa', pop:'112M', gdp:'$387B', gdppc:'$3,699', hdi:0.731, lifeExp:72.0, literacy:73.1, internet:72.2, co2:2.2, gini:31.5, major:true },
-  { name:'Morocco', code:'MA', lat:31.8, lon:-7.1, region:'North Africa', pop:'38M', gdp:'$141B', gdppc:'$3,795', hdi:0.683, lifeExp:76.7, literacy:75.9, internet:84.1, co2:1.8, gini:39.5, major:false },
-  { name:'Algeria', code:'DZ', lat:28.0, lon:1.7, region:'North Africa', pop:'46M', gdp:'$195B', gdppc:'$4,300', hdi:0.745, lifeExp:76.8, literacy:81.4, internet:68.5, co2:3.5, gini:27.6, major:false },
-  { name:'Tunisia', code:'TN', lat:33.9, lon:9.5, region:'North Africa', pop:'12M', gdp:'$46B', gdppc:'$3,807', hdi:0.731, lifeExp:76.7, literacy:82.3, internet:71.9, co2:2.5, gini:32.8, major:false },
-  { name:'Libya', code:'LY', lat:26.3, lon:17.2, region:'North Africa', pop:'7M', gdp:'$42B', gdppc:'$6,018', hdi:0.718, lifeExp:73.4, literacy:91.0, internet:84.2, co2:7.8, gini:33.0, major:false },
+  { name:'Egypt', code:'EG', lat:26.8, lon:30.8, region:'North Africa', pop:'112M', gdp:'$387B', gdppc:'$3,699', hdi:0.731, lifeExp:72.0, literacy:73.1, internet:72.2, co2:2.2, gini:31.5, poverty:3.8, cleanEnergy:12, urban:43, major:true },
+  { name:'Morocco', code:'MA', lat:31.8, lon:-7.1, region:'North Africa', pop:'38M', gdp:'$141B', gdppc:'$3,795', hdi:0.683, lifeExp:76.7, literacy:75.9, internet:84.1, co2:1.8, gini:39.5, poverty:1.0, cleanEnergy:38, urban:65, major:false },
+  { name:'Algeria', code:'DZ', lat:28.0, lon:1.7, region:'North Africa', pop:'46M', gdp:'$195B', gdppc:'$4,300', hdi:0.745, lifeExp:76.8, literacy:81.4, internet:68.5, co2:3.5, gini:27.6, poverty:0.5, cleanEnergy:1, urban:74, major:false },
+  { name:'Tunisia', code:'TN', lat:33.9, lon:9.5, region:'North Africa', pop:'12M', gdp:'$46B', gdppc:'$3,807', hdi:0.731, lifeExp:76.7, literacy:82.3, internet:71.9, co2:2.5, gini:32.8, poverty:0.3, cleanEnergy:10, urban:70, major:false },
+  { name:'Libya', code:'LY', lat:26.3, lon:17.2, region:'North Africa', pop:'7M', gdp:'$42B', gdppc:'$6,018', hdi:0.718, lifeExp:73.4, literacy:91.0, internet:84.2, co2:7.8, gini:33.0, poverty:0.0, cleanEnergy:2, urban:81, major:false },
 
   // Africa — West
-  { name:'Nigeria', code:'NG', lat:9.1, lon:8.7, region:'West Africa', pop:'224M', gdp:'$477B', gdppc:'$2,065', hdi:0.548, lifeExp:52.7, literacy:62.0, internet:55.4, co2:0.6, gini:35.1, major:true },
-  { name:'Ghana', code:'GH', lat:7.9, lon:-1.0, region:'West Africa', pop:'34M', gdp:'$76B', gdppc:'$2,258', hdi:0.602, lifeExp:64.1, literacy:79.0, internet:68.2, co2:0.6, gini:43.5, major:false },
-  { name:'Senegal', code:'SN', lat:14.5, lon:-14.5, region:'West Africa', pop:'18M', gdp:'$28B', gdppc:'$1,595', hdi:0.511, lifeExp:68.6, literacy:51.9, internet:58.0, co2:0.7, gini:40.3, major:false },
-  { name:"Côte d'Ivoire", code:'CI', lat:7.5, lon:-5.5, region:'West Africa', pop:'29M', gdp:'$78B', gdppc:'$2,730', hdi:0.550, lifeExp:58.6, literacy:47.2, internet:45.4, co2:0.4, gini:41.5, major:false },
+  { name:'Nigeria', code:'NG', lat:9.1, lon:8.7, region:'West Africa', pop:'224M', gdp:'$477B', gdppc:'$2,065', hdi:0.548, lifeExp:52.7, literacy:62.0, internet:55.4, co2:0.6, gini:35.1, poverty:31.0, cleanEnergy:13, urban:54, major:true },
+  { name:'Ghana', code:'GH', lat:7.9, lon:-1.0, region:'West Africa', pop:'34M', gdp:'$76B', gdppc:'$2,258', hdi:0.602, lifeExp:64.1, literacy:79.0, internet:68.2, co2:0.6, gini:43.5, poverty:13.3, cleanEnergy:35, urban:59, major:false },
+  { name:'Senegal', code:'SN', lat:14.5, lon:-14.5, region:'West Africa', pop:'18M', gdp:'$28B', gdppc:'$1,595', hdi:0.511, lifeExp:68.6, literacy:51.9, internet:58.0, co2:0.7, gini:40.3, poverty:32.8, cleanEnergy:10, urban:49, major:false },
+  { name:"Côte d'Ivoire", code:'CI', lat:7.5, lon:-5.5, region:'West Africa', pop:'29M', gdp:'$78B', gdppc:'$2,730', hdi:0.550, lifeExp:58.6, literacy:47.2, internet:45.4, co2:0.4, gini:41.5, poverty:27.2, cleanEnergy:41, urban:53, major:false },
 
   // Africa — East
-  { name:'Kenya', code:'KE', lat:0.0, lon:38.0, region:'East Africa', pop:'56M', gdp:'$113B', gdppc:'$2,099', hdi:0.575, lifeExp:66.7, literacy:81.5, internet:40.0, co2:0.4, gini:40.8, major:true },
-  { name:'Ethiopia', code:'ET', lat:9.1, lon:40.5, region:'East Africa', pop:'126M', gdp:'$156B', gdppc:'$1,253', hdi:0.492, lifeExp:67.8, literacy:51.8, internet:25.0, co2:0.2, gini:35.0, major:true },
-  { name:'Tanzania', code:'TZ', lat:-6.4, lon:34.9, region:'East Africa', pop:'67M', gdp:'$79B', gdppc:'$1,192', hdi:0.549, lifeExp:66.2, literacy:78.0, internet:32.0, co2:0.2, gini:40.5, major:false },
-  { name:'Uganda', code:'UG', lat:1.4, lon:32.3, region:'East Africa', pop:'49M', gdp:'$46B', gdppc:'$964', hdi:0.525, lifeExp:63.4, literacy:76.5, internet:26.0, co2:0.1, gini:42.8, major:false },
-  { name:'Rwanda', code:'RW', lat:-1.9, lon:29.9, region:'East Africa', pop:'14M', gdp:'$13B', gdppc:'$966', hdi:0.534, lifeExp:69.0, literacy:73.2, internet:30.0, co2:0.1, gini:43.7, major:false },
-  { name:'Madagascar', code:'MG', lat:-18.8, lon:46.9, region:'East Africa', pop:'30M', gdp:'$16B', gdppc:'$530', hdi:0.501, lifeExp:67.0, literacy:76.7, internet:14.5, co2:0.1, gini:42.6, major:false },
-  { name:'Somalia', code:'SO', lat:5.2, lon:46.2, region:'East Africa', pop:'18M', gdp:'$8B', gdppc:'$446', hdi:0.381, lifeExp:57.4, literacy:40.0, internet:20.0, co2:0.0, gini:36.8, major:false },
+  { name:'Kenya', code:'KE', lat:0.0, lon:38.0, region:'East Africa', pop:'56M', gdp:'$113B', gdppc:'$2,099', hdi:0.575, lifeExp:66.7, literacy:81.5, internet:40.0, co2:0.4, gini:40.8, poverty:29.4, cleanEnergy:73, urban:29, major:true },
+  { name:'Ethiopia', code:'ET', lat:9.1, lon:40.5, region:'East Africa', pop:'126M', gdp:'$156B', gdppc:'$1,253', hdi:0.492, lifeExp:67.8, literacy:51.8, internet:25.0, co2:0.2, gini:35.0, poverty:30.8, cleanEnergy:92, urban:22, major:true },
+  { name:'Tanzania', code:'TZ', lat:-6.4, lon:34.9, region:'East Africa', pop:'67M', gdp:'$79B', gdppc:'$1,192', hdi:0.549, lifeExp:66.2, literacy:78.0, internet:32.0, co2:0.2, gini:40.5, poverty:26.4, cleanEnergy:81, urban:37, major:false },
+  { name:'Uganda', code:'UG', lat:1.4, lon:32.3, region:'East Africa', pop:'49M', gdp:'$46B', gdppc:'$964', hdi:0.525, lifeExp:63.4, literacy:76.5, internet:26.0, co2:0.1, gini:42.8, poverty:30.3, cleanEnergy:89, urban:26, major:false },
+  { name:'Rwanda', code:'RW', lat:-1.9, lon:29.9, region:'East Africa', pop:'14M', gdp:'$13B', gdppc:'$966', hdi:0.534, lifeExp:69.0, literacy:73.2, internet:30.0, co2:0.1, gini:43.7, poverty:38.2, cleanEnergy:83, urban:18, major:false },
+  { name:'Madagascar', code:'MG', lat:-18.8, lon:46.9, region:'East Africa', pop:'30M', gdp:'$16B', gdppc:'$530', hdi:0.501, lifeExp:67.0, literacy:76.7, internet:14.5, co2:0.1, gini:42.6, poverty:77.6, cleanEnergy:52, urban:40, major:false },
+  { name:'Somalia', code:'SO', lat:5.2, lon:46.2, region:'East Africa', pop:'18M', gdp:'$8B', gdppc:'$446', hdi:0.381, lifeExp:57.4, literacy:40.0, internet:20.0, co2:0.0, gini:36.8, poverty:69.0, cleanEnergy:3, urban:48, major:false },
 
   // Africa — Southern
-  { name:'South Africa', code:'ZA', lat:-30.6, lon:22.9, region:'Southern Africa', pop:'62M', gdp:'$399B', gdppc:'$6,485', hdi:0.713, lifeExp:65.3, literacy:95.0, internet:72.3, co2:6.7, gini:63.0, major:true },
-  { name:'DR Congo', code:'CD', lat:-4.0, lon:21.8, region:'Central Africa', pop:'102M', gdp:'$66B', gdppc:'$654', hdi:0.479, lifeExp:60.7, literacy:77.0, internet:23.2, co2:0.04, gini:42.1, major:true },
-  { name:'Angola', code:'AO', lat:-11.2, lon:17.9, region:'Southern Africa', pop:'36M', gdp:'$74B', gdppc:'$2,045', hdi:0.586, lifeExp:61.6, literacy:72.0, internet:36.0, co2:0.7, gini:51.3, major:false },
-  { name:'Mozambique', code:'MZ', lat:-18.7, lon:35.5, region:'Southern Africa', pop:'33M', gdp:'$18B', gdppc:'$542', hdi:0.461, lifeExp:60.9, literacy:63.4, internet:21.0, co2:0.2, gini:54.0, major:false },
-  { name:'Zimbabwe', code:'ZW', lat:-19.0, lon:29.2, region:'Southern Africa', pop:'16M', gdp:'$29B', gdppc:'$1,773', hdi:0.550, lifeExp:61.5, literacy:89.7, internet:35.1, co2:0.5, gini:50.3, major:false },
-  { name:'Zambia', code:'ZM', lat:-13.1, lon:27.8, region:'Southern Africa', pop:'20M', gdp:'$29B', gdppc:'$1,457', hdi:0.565, lifeExp:63.9, literacy:86.7, internet:27.0, co2:0.3, gini:57.1, major:false },
-  { name:'Botswana', code:'BW', lat:-22.3, lon:24.7, region:'Southern Africa', pop:'2.6M', gdp:'$19B', gdppc:'$7,738', hdi:0.693, lifeExp:61.1, literacy:88.5, internet:71.0, co2:2.8, gini:53.3, major:false },
+  { name:'South Africa', code:'ZA', lat:-30.6, lon:22.9, region:'Southern Africa', pop:'62M', gdp:'$399B', gdppc:'$6,485', hdi:0.713, lifeExp:65.3, literacy:95.0, internet:72.3, co2:6.7, gini:63.0, poverty:18.9, cleanEnergy:11, urban:68, major:true },
+  { name:'DR Congo', code:'CD', lat:-4.0, lon:21.8, region:'Central Africa', pop:'102M', gdp:'$66B', gdppc:'$654', hdi:0.479, lifeExp:60.7, literacy:77.0, internet:23.2, co2:0.04, gini:42.1, poverty:64.0, cleanEnergy:96, urban:47, major:true },
+  { name:'Angola', code:'AO', lat:-11.2, lon:17.9, region:'Southern Africa', pop:'36M', gdp:'$74B', gdppc:'$2,045', hdi:0.586, lifeExp:61.6, literacy:72.0, internet:36.0, co2:0.7, gini:51.3, poverty:32.3, cleanEnergy:57, urban:69, major:false },
+  { name:'Mozambique', code:'MZ', lat:-18.7, lon:35.5, region:'Southern Africa', pop:'33M', gdp:'$18B', gdppc:'$542', hdi:0.461, lifeExp:60.9, literacy:63.4, internet:21.0, co2:0.2, gini:54.0, poverty:62.9, cleanEnergy:64, urban:38, major:false },
+  { name:'Zimbabwe', code:'ZW', lat:-19.0, lon:29.2, region:'Southern Africa', pop:'16M', gdp:'$29B', gdppc:'$1,773', hdi:0.550, lifeExp:61.5, literacy:89.7, internet:35.1, co2:0.5, gini:50.3, poverty:38.3, cleanEnergy:27, urban:32, major:false },
+  { name:'Zambia', code:'ZM', lat:-13.1, lon:27.8, region:'Southern Africa', pop:'20M', gdp:'$29B', gdppc:'$1,457', hdi:0.565, lifeExp:63.9, literacy:86.7, internet:27.0, co2:0.3, gini:57.1, poverty:54.4, cleanEnergy:83, urban:46, major:false },
+  { name:'Botswana', code:'BW', lat:-22.3, lon:24.7, region:'Southern Africa', pop:'2.6M', gdp:'$19B', gdppc:'$7,738', hdi:0.693, lifeExp:61.1, literacy:88.5, internet:71.0, co2:2.8, gini:53.3, poverty:14.5, cleanEnergy:3, urban:72, major:false },
 
   // Oceania
-  { name:'Australia', code:'AU', lat:-25.3, lon:133.8, region:'Oceania', pop:'26M', gdp:'$1.7T', gdppc:'$65,366', hdi:0.946, lifeExp:83.3, literacy:99, internet:96.2, co2:14.9, gini:34.4, major:true },
-  { name:'New Zealand', code:'NZ', lat:-40.9, lon:174.9, region:'Oceania', pop:'5.2M', gdp:'$252B', gdppc:'$48,781', hdi:0.939, lifeExp:82.5, literacy:99, internet:95.0, co2:6.2, gini:36.0, major:false },
-  { name:'Papua New Guinea', code:'PG', lat:-6.3, lon:143.9, region:'Oceania', pop:'10M', gdp:'$31B', gdppc:'$3,016', hdi:0.558, lifeExp:65.0, literacy:64.2, internet:32.0, co2:0.8, gini:41.9, major:false },
+  { name:'Australia', code:'AU', lat:-25.3, lon:133.8, region:'Oceania', pop:'26M', gdp:'$1.7T', gdppc:'$65,366', hdi:0.946, lifeExp:83.3, literacy:99, internet:96.2, co2:14.9, gini:34.4, poverty:0.5, cleanEnergy:32, urban:87, major:true },
+  { name:'New Zealand', code:'NZ', lat:-40.9, lon:174.9, region:'Oceania', pop:'5.2M', gdp:'$252B', gdppc:'$48,781', hdi:0.939, lifeExp:82.5, literacy:99, internet:95.0, co2:6.2, gini:36.0, poverty:0.2, cleanEnergy:82, urban:87, major:false },
+  { name:'Papua New Guinea', code:'PG', lat:-6.3, lon:143.9, region:'Oceania', pop:'10M', gdp:'$31B', gdppc:'$3,016', hdi:0.558, lifeExp:65.0, literacy:64.2, internet:32.0, co2:0.8, gini:41.9, poverty:39.9, cleanEnergy:37, urban:13, major:false },
 ];
 
 // ============================================
@@ -274,7 +274,7 @@ const pointsGroup = new THREE.Group();
 earth.add(pointsGroup);
 
 const countryMeshes = []; // Will hold clickable polygon meshes
-let activeMetric = 'hdi';
+let activeMetric = 'poverty';
 
 // Only add text labels (no dots or rings)
 countries.forEach((c) => {
@@ -424,7 +424,7 @@ async function loadBordersAndPolygons() {
 
                 // Invisible but raycastable mesh
                 const meshMat = new THREE.MeshBasicMaterial({
-                  color: hdiColor(countryData.hdi),
+                  color: metricConfig.poverty.colorFn(countryData.poverty),
                   transparent: true,
                   opacity: 0,
                   side: THREE.DoubleSide,
@@ -592,7 +592,11 @@ canvas.addEventListener('mousemove', (event) => {
 
   if (hit) {
     const c = hit.object.userData;
-    globeLabel.innerHTML = `<strong>${c.name}</strong> &middot; HDI ${c.hdi} &middot; GDP/cap ${c.gdppc}`;
+    const cfg = metricConfig[activeMetric];
+    const metricVal = cfg ? c[cfg.key] : c.poverty;
+    const metricUnit = cfg ? cfg.unit : '%';
+    const metricLabel = cfg ? cfg.label : 'Poverty';
+    globeLabel.innerHTML = `<strong>${c.name}</strong> &middot; ${metricLabel}: ${metricVal}${metricUnit}`;
     globeLabel.classList.remove('hidden');
     globeLabel.style.left = event.clientX + 16 + 'px';
     globeLabel.style.top = event.clientY - 16 + 'px';
@@ -637,15 +641,15 @@ function updateDetailPanel(c) {
   document.getElementById('detail-country-name').textContent = c.name;
   document.getElementById('detail-region').textContent = c.region;
   document.getElementById('detail-pop').textContent = c.pop;
-  document.getElementById('detail-gdp').textContent = c.gdp;
-  document.getElementById('detail-gdppc').textContent = c.gdppc;
-  document.getElementById('detail-hdi').textContent = c.hdi.toFixed(3);
-  document.getElementById('detail-hdi').style.color = hdiColorCSS(c.hdi);
-  document.getElementById('detail-life').textContent = c.lifeExp + ' years';
-  document.getElementById('detail-literacy').textContent = c.literacy + '%';
-  document.getElementById('detail-internet').textContent = c.internet + '%';
+  document.getElementById('detail-poverty').textContent = c.poverty + '%';
+  document.getElementById('detail-cleanEnergy').textContent = c.cleanEnergy + '%';
+  document.getElementById('detail-urban').textContent = c.urban + '%';
   document.getElementById('detail-co2').textContent = c.co2 + ' tons';
   document.getElementById('detail-gini').textContent = c.gini.toFixed(1);
+  document.getElementById('detail-gdppc').textContent = c.gdppc;
+  document.getElementById('detail-life').textContent = c.lifeExp + ' years';
+  document.getElementById('detail-hdi').textContent = c.hdi.toFixed(3);
+  document.getElementById('detail-hdi').style.color = hdiColorCSS(c.hdi);
 
   // HDI bar position
   document.getElementById('detail-hdi-bar').style.left = (c.hdi * 100) + '%';
@@ -655,12 +659,48 @@ function updateDetailPanel(c) {
 // Metric Switching (top nav)
 // ============================================
 const metricConfig = {
-  hdi: { key: 'hdi', label: 'HDI', colorFn: hdiColor },
-  gdppc: { key: 'gdppc', label: 'GDP/Capita', colorFn: (v) => { const n = parseInt(String(v).replace(/[$,T]/g, '')); if (n >= 30000) return 0x34d399; if (n >= 10000) return 0x38bdf8; if (n >= 3000) return 0xfbbf24; return 0xf87171; }},
-  lifeExp: { key: 'lifeExp', label: 'Life Expectancy', colorFn: (v) => { if (v >= 78) return 0x34d399; if (v >= 72) return 0x38bdf8; if (v >= 65) return 0xfbbf24; return 0xf87171; }},
-  literacy: { key: 'literacy', label: 'Literacy', colorFn: (v) => { if (v >= 95) return 0x34d399; if (v >= 80) return 0x38bdf8; if (v >= 60) return 0xfbbf24; return 0xf87171; }},
-  internet: { key: 'internet', label: 'Internet', colorFn: (v) => { if (v >= 85) return 0x34d399; if (v >= 60) return 0x38bdf8; if (v >= 35) return 0xfbbf24; return 0xf87171; }},
+  poverty: {
+    key: 'poverty', label: 'Poverty', unit: '%',
+    colorFn: (v) => { if (v < 5) return 0x34d399; if (v < 15) return 0x38bdf8; if (v < 40) return 0xfbbf24; return 0xf87171; },
+    legend: { title: 'Poverty Levels', items: ['Low (<5%)', 'Moderate (5–15%)', 'High (15–40%)', 'Severe (>40%)'] },
+  },
+  cleanEnergy: {
+    key: 'cleanEnergy', label: 'Clean Energy', unit: '%',
+    colorFn: (v) => { if (v >= 60) return 0x34d399; if (v >= 30) return 0x38bdf8; if (v >= 15) return 0xfbbf24; return 0xf87171; },
+    legend: { title: 'Renewable Energy Share', items: ['High (≥60%)', 'Growing (30–59%)', 'Moderate (15–29%)', 'Low (<15%)'] },
+  },
+  urban: {
+    key: 'urban', label: 'Urbanization', unit: '%',
+    colorFn: (v) => { if (v >= 80) return 0x34d399; if (v >= 60) return 0x38bdf8; if (v >= 40) return 0xfbbf24; return 0xf87171; },
+    legend: { title: 'Urbanization Levels', items: ['Highly Urban (≥80%)', 'Urban (60–79%)', 'Transitioning (40–59%)', 'Rural (<40%)'] },
+  },
+  co2: {
+    key: 'co2', label: 'CO₂ Emissions', unit: ' tons',
+    colorFn: (v) => { if (v <= 2) return 0x34d399; if (v <= 6) return 0x38bdf8; if (v <= 12) return 0xfbbf24; return 0xf87171; },
+    legend: { title: 'CO₂ per Capita', items: ['Low (≤2 tons)', 'Moderate (2–6 tons)', 'High (6–12 tons)', 'Very High (>12 tons)'] },
+  },
+  gini: {
+    key: 'gini', label: 'Inequality', unit: '',
+    colorFn: (v) => { if (v < 30) return 0x34d399; if (v < 38) return 0x38bdf8; if (v < 48) return 0xfbbf24; return 0xf87171; },
+    legend: { title: 'Inequality (Gini Index)', items: ['Low (<30)', 'Moderate (30–37)', 'High (38–47)', 'Very High (≥48)'] },
+  },
 };
+
+const legendColors = ['#34d399', '#38bdf8', '#fbbf24', '#f87171'];
+
+// Update the right-panel legend when metric changes
+function updateLegend(metric) {
+  const cfg = metricConfig[metric];
+  if (!cfg || !cfg.legend) return;
+  const titleEl = document.getElementById('legend-title');
+  const listEl = document.getElementById('legend-list');
+  if (titleEl) titleEl.textContent = cfg.legend.title;
+  if (listEl) {
+    listEl.innerHTML = cfg.legend.items.map((text, i) =>
+      `<div class="legend-item"><span class="legend-dot" style="background:${legendColors[i]}"></span>${text}</div>`
+    ).join('');
+  }
+}
 
 document.querySelectorAll('.nav-link[data-metric]').forEach(link => {
   link.addEventListener('click', (e) => {
@@ -670,6 +710,7 @@ document.querySelectorAll('.nav-link[data-metric]').forEach(link => {
     const metric = link.dataset.metric;
     activeMetric = metric;
     updateMarkerColors(metric);
+    updateLegend(metric);
   });
 });
 
@@ -766,13 +807,13 @@ function openMobileDrawer(c) {
   if (mobileDrawerGrid) {
     mobileDrawerGrid.innerHTML = [
       { label: 'Population', value: c.pop },
-      { label: 'GDP', value: c.gdp },
-      { label: 'GDP/Capita', value: c.gdppc },
-      { label: 'Life Expect.', value: c.lifeExp + ' yrs' },
-      { label: 'Literacy', value: c.literacy + '%' },
-      { label: 'Internet', value: c.internet + '%' },
+      { label: 'Poverty Rate', value: c.poverty + '%' },
+      { label: 'Clean Energy', value: c.cleanEnergy + '%' },
+      { label: 'Urban Pop.', value: c.urban + '%' },
       { label: 'CO₂/capita', value: c.co2 + ' tons' },
       { label: 'Gini Index', value: c.gini.toFixed(1) },
+      { label: 'GDP/Capita', value: c.gdppc },
+      { label: 'Life Expect.', value: c.lifeExp + ' yrs' },
     ].map(s => `<div class="drawer-stat"><div class="stat-label">${s.label}</div><div class="stat-value">${s.value}</div></div>`).join('');
   }
 
@@ -835,6 +876,7 @@ document.querySelectorAll('.m-pill[data-metric]').forEach(pill => {
     pill.classList.add('active');
     activeMetric = pill.dataset.metric;
     updateMarkerColors(pill.dataset.metric);
+    updateLegend(pill.dataset.metric);
   });
 });
 
@@ -884,12 +926,12 @@ function genData(base, variance, len) {
   return d;
 }
 
-createMiniChart('chart-pop', '#a78bfa', genData(7.0, 0.15, 30));
-createMiniChart('chart-gdp', '#34d399', genData(80, 3, 30));
-createMiniChart('chart-life', '#38bdf8', genData(70, 0.5, 30));
 createMiniChart('chart-poverty', '#f87171', genData(12, -0.3, 30));
-createMiniChart('chart-internet', '#fbbf24', genData(50, 2, 30));
-createMiniChart('chart-literacy', '#34d399', genData(82, 0.5, 30));
+createMiniChart('chart-renewables', '#34d399', genData(22, 1.5, 30));
+createMiniChart('chart-urban', '#38bdf8', genData(50, 0.5, 30));
+createMiniChart('chart-co2', '#fbbf24', genData(33, 0.4, 30));
+createMiniChart('chart-gini', '#a78bfa', genData(40, -0.2, 30));
+createMiniChart('chart-pop', '#38bdf8', genData(7.0, 0.15, 30));
 
 // ============================================
 // Clock
